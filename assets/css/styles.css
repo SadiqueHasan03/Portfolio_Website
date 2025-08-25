@@ -627,6 +627,8 @@ img {
 
 .footer__subtitle{
   font-size: var(--small-font-size);
+  color: var(--text-color-light);
+}
 }
 
 .footer__links{
