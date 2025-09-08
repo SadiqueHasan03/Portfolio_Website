@@ -34,4 +34,4 @@ function Card({
 
 Card.propTypes = CardPropTypes
 
-export default Card
+export default Card;

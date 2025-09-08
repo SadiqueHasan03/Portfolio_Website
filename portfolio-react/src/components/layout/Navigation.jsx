@@ -91,4 +91,4 @@ Navigation.propTypes = {
   mobile: PropTypes.bool
 }
 
-export default Navigation
+export default Navigation;

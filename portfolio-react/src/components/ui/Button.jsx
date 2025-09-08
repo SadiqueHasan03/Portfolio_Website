@@ -42,4 +42,4 @@ function Button({
 
 Button.propTypes = ButtonPropTypes
 
-export default Button
+export default Button;

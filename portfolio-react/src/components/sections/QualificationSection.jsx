@@ -101,4 +101,4 @@ function QualificationSection() {
   )
 }
 
-export default QualificationSection
+export default QualificationSection;

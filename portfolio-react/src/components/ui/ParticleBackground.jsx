@@ -65,4 +65,4 @@ function ParticleBackground({ particleCount = 50, className = '' }) {
   )
 }
 
-export default ParticleBackground
+export default ParticleBackground;

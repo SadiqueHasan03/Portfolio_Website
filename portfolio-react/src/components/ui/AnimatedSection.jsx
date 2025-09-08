@@ -63,4 +63,4 @@ AnimatedSection.propTypes = {
   duration: PropTypes.number
 }
 
-export default AnimatedSection
+export default AnimatedSection;
