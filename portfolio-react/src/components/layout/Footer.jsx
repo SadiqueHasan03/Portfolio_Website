@@ -1,23 +1,37 @@
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import { personalInfo } from '../../data/portfolioData'
-import { smoothScrollTo } from '../../utils/helpers'
+import { navigateToSection } from '../../utils/navigation'
+import useAppStore from '../../stores/useAppStore'
 
 function Footer() {
   const currentYear = new Date().getFullYear()
   const location = useLocation()
+  const navigate = useNavigate()
+  const { setActiveSection } = useAppStore()
   const isHomePage = location.pathname === '/'
 
-  const handleAboutClick = (e) => {
-    if (isHomePage) {
-      e.preventDefault()
-      const aboutElement = document.getElementById('about')
-      if (aboutElement) {
-        smoothScrollTo('about', 80)
-      } else {
-        console.warn('About section not found on home page')
+  const handleQuickLinkClick = async (e, targetUrl) => {
+    e.preventDefault()
+    
+    try {
+      const success = await navigateToSection(targetUrl, navigate, {
+        offset: 80,
+        delay: 150,
+        fallbackToTop: true
+      })
+      
+      if (success) {
+        // Extract section ID for state management
+        const sectionId = targetUrl.includes('#') ? targetUrl.split('#')[1] : null
+        if (sectionId) {
+          setActiveSection(sectionId)
+        }
       }
+    } catch (error) {
+      console.error('Footer navigation error:', error)
+      // Fallback to regular navigation
+      navigate(targetUrl)
     }
-    // If not on home page, let the Link component handle navigation
   }
 
   return (
@@ -68,37 +82,58 @@ function Footer() {
             <h4 className="text-lg font-semibold mb-4">Quick Links</h4>
             <ul className="space-y-2">
               <li>
-                <Link
-                  to="/#about"
-                  onClick={handleAboutClick}
-                  className="text-primary-100 hover:text-white transition-colors duration-300"
+                <a
+                  href="/#about"
+                  onClick={(e) => handleQuickLinkClick(e, '/#about')}
+                  className="text-primary-100 hover:text-white transition-colors duration-300 cursor-pointer"
                 >
                   About Me
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
-                  to="/projects"
-                  className="text-primary-100 hover:text-white transition-colors duration-300"
+                <a
+                  href="/#skills"
+                  onClick={(e) => handleQuickLinkClick(e, '/#skills')}
+                  className="text-primary-100 hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Skills
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/#qualifications"
+                  onClick={(e) => handleQuickLinkClick(e, '/#qualifications')}
+                  className="text-primary-100 hover:text-white transition-colors duration-300 cursor-pointer"
+                >
+                  Qualifications
+                </a>
+              </li>
+              <li>
+                <a
+                  href="/projects"
+                  onClick={(e) => handleQuickLinkClick(e, '/projects')}
+                  className="text-primary-100 hover:text-white transition-colors duration-300 cursor-pointer"
                 >
                   Projects
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
-                  to="/contact"
-                  className="text-primary-100 hover:text-white transition-colors duration-300"
+                <a
+                  href="/#contact"
+                  onClick={(e) => handleQuickLinkClick(e, '/#contact')}
+                  className="text-primary-100 hover:text-white transition-colors duration-300 cursor-pointer"
                 >
                   Contact
-                </Link>
+                </a>
               </li>
               <li>
-                <Link
-                  to="/resume"
-                  className="text-primary-100 hover:text-white transition-colors duration-300"
+                <a
+                  href="/resume"
+                  onClick={(e) => handleQuickLinkClick(e, '/resume')}
+                  className="text-primary-100 hover:text-white transition-colors duration-300 cursor-pointer"
                 >
                   Resume
-                </Link>
+                </a>
               </li>
             </ul>
           </div>

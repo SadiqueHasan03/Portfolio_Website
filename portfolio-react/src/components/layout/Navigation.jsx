@@ -1,35 +1,43 @@
 import PropTypes from 'prop-types'
-import { Link, useLocation } from 'react-router-dom'
+import { Link, useLocation, useNavigate } from 'react-router-dom'
 import useAppStore from '../../stores/useAppStore'
 import { navigationItems } from '../../data/portfolioData'
-import { smoothScrollTo } from '../../utils/helpers'
+import { navigateToSection } from '../../utils/navigation'
 
 function Navigation({ mobile = false }) {
   const { activeSection, setActiveSection, closeMobileMenu } = useAppStore()
   const location = useLocation()
+  const navigate = useNavigate()
   const isHomePage = location.pathname === '/'
 
-  const handleNavClick = (item) => {
+  const handleNavClick = async (item) => {
     if (mobile) {
       closeMobileMenu()
     }
 
     if (isHomePage && item.href.startsWith('#')) {
-      // Smooth scroll to section on home page
+      // Enhanced smooth scroll for same page
       const sectionId = item.href.substring(1)
       
-      // Check if target element exists
-      const targetElement = document.getElementById(sectionId)
-      if (targetElement) {
-        smoothScrollTo(sectionId, 80)
-        setActiveSection(sectionId)
-      } else {
-        console.warn(`Navigation target "${sectionId}" not found on page`)
-        // Fallback: scroll to top for missing sections
-        if (sectionId === 'home') {
-          window.scrollTo({ top: 0, behavior: 'smooth' })
-          setActiveSection('home')
+      try {
+        const success = await navigateToSection(item.href, navigate, {
+          offset: 80,
+          delay: 100,
+          fallbackToTop: sectionId === 'home'
+        })
+        
+        if (success) {
+          setActiveSection(sectionId)
+        } else {
+          console.warn(`Navigation target "${sectionId}" not found on page`)
+          // Fallback for home section
+          if (sectionId === 'home') {
+            window.scrollTo({ top: 0, behavior: 'smooth' })
+            setActiveSection('home')
+          }
         }
+      } catch (error) {
+        console.error('Navigation error:', error)
       }
     }
   }
