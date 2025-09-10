@@ -1,10 +1,22 @@
-// Personal information and portfolio data
+// Personal information and portfolio data with image configuration
 export const personalInfo = {
   name: "Sadique Hasan",
   title: "Software Engineer",
   description: "Computer Science and Engineering student with expertise in Java, web development, and a passion for building innovative and impactful projects.",
   email: "sadiquehasan03@gmail.com",
   location: "New Delhi, India",
+  images: {
+    profile: {
+      src: "/images/profile/perfil.png",
+      alt: "Sadique Hasan - Software Engineer",
+      fallback: "/images/placeholders/user-placeholder.svg"
+    },
+    about: {
+      src: "/images/profile/about.jpg",
+      alt: "About Sadique Hasan",
+      fallback: "/images/placeholders/user-placeholder.svg"
+    }
+  },
   socialLinks: {
     linkedin: "https://www.linkedin.com/in/sadique-hasan/",
     github: "https://www.github.com/SadiqueHasan03",
@@ -73,14 +85,19 @@ export const qualificationData = {
   ]
 }
 
-// Project portfolio data for future expansion
+// Project portfolio data with enhanced image configuration
 export const projectsData = [
   {
     id: "honey-website",
     title: "Honey Selling Website",
     description: "A modern e-commerce website for selling natural honey products with payment integration and responsive design.",
     technologies: ["HTML", "CSS", "JavaScript", "PayPal API"],
-    image: "/images/honey-website.jpg",
+    image: "/images/projects/honey-website.jpg",
+    imageConfig: {
+      alt: "Honey selling website e-commerce platform screenshot",
+      fallback: "/images/placeholders/project-placeholder.svg",
+      placeholder: "/images/placeholders/loading.svg"
+    },
     liveUrl: "#",
     githubUrl: "#",
     featured: true
@@ -90,7 +107,12 @@ export const projectsData = [
     title: "Sorting Visualizer",
     description: "Interactive web application that visualizes popular sorting algorithms with customizable speed and array size.",
     technologies: ["React", "JavaScript", "CSS3", "Algorithms"],
-    image: "/images/sorting-visualizer.jpg",
+    image: "/images/projects/sorting-visualizer.jpg",
+    imageConfig: {
+      alt: "Sorting algorithm visualization tool interface",
+      fallback: "/images/placeholders/project-placeholder.svg",
+      placeholder: "/images/placeholders/loading.svg"
+    },
     liveUrl: "#",
     githubUrl: "#",
     featured: true
@@ -100,7 +122,12 @@ export const projectsData = [
     title: "The Simon Game",
     description: "Classic memory game implementation with sound effects and progressive difficulty levels.",
     technologies: ["JavaScript", "HTML5", "CSS3", "Web Audio API"],
-    image: "/images/simon-game.jpg",
+    image: "/images/projects/simon-game.jpg",
+    imageConfig: {
+      alt: "Simon memory game with colorful interface",
+      fallback: "/images/placeholders/project-placeholder.svg",
+      placeholder: "/images/placeholders/loading.svg"
+    },
     liveUrl: "#",
     githubUrl: "#",
     featured: false

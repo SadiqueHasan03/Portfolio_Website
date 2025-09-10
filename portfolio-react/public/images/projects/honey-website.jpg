@@ -1,0 +1,27 @@
+<svg width="600" height="400" viewBox="0 0 600 400" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="400" fill="#fef3c7"/>
+  
+  <!-- Honey jar illustration -->
+  <ellipse cx="300" cy="350" rx="80" ry="15" fill="#f59e0b" opacity="0.3"/>
+  <rect x="240" y="200" width="120" height="140" rx="60" fill="#f59e0b"/>
+  <rect x="240" y="180" width="120" height="40" rx="20" fill="#d97706"/>
+  <rect x="270" y="160" width="60" height="30" rx="15" fill="#92400e"/>
+  
+  <!-- Honey drip -->
+  <ellipse cx="300" cy="320" rx="8" ry="4" fill="#fbbf24"/>
+  <path d="M300 320 Q295 330 300 340 Q305 330 300 320" fill="#fbbf24"/>
+  
+  <!-- Honeycomb pattern -->
+  <g fill="#fcd34d" opacity="0.5">
+    <polygon points="100,80 120,70 140,80 140,100 120,110 100,100"/>
+    <polygon points="140,80 160,70 180,80 180,100 160,110 140,100"/>
+    <polygon points="120,110 140,100 160,110 160,130 140,140 120,130"/>
+    <polygon points="450,60 470,50 490,60 490,80 470,90 450,80"/>
+    <polygon points="490,60 510,50 530,60 530,80 510,90 490,80"/>
+  </g>
+  
+  <!-- Text -->
+  <text x="300" y="50" text-anchor="middle" fill="#92400e" font-family="Arial, sans-serif" font-size="24" font-weight="bold">Honey Website</text>
+  <text x="300" y="380" text-anchor="middle" fill="#92400e" font-family="Arial, sans-serif" font-size="14">E-commerce Platform</text>
+</svg>

@@ -1,6 +1,7 @@
 import { personalInfo } from '../../data/portfolioData'
 import { useTypewriter } from '../../hooks/useAnimations'
 import Button from '../ui/Button'
+import ProfileImage from '../ui/ProfileImage'
 import ParticleBackground from '../ui/ParticleBackground'
 import AnimatedSection from '../ui/AnimatedSection'
 import { smoothScrollTo } from '../../utils/helpers'
@@ -111,11 +112,14 @@ function HeroSection() {
             className="order-1 lg:order-2 flex justify-center"
           >
             <div className="relative">
-              <div className="w-64 h-64 md:w-80 md:h-80 bg-gradient-to-br from-primary-400 to-secondary-400 rounded-full flex items-center justify-center animate-float shadow-2xl">
-                {/* Inner circle */}
-                <div className="w-56 h-56 md:w-72 md:h-72 bg-white dark:bg-gray-800 rounded-full flex items-center justify-center shadow-inner">
-                  <i className="uil uil-user text-6xl md:text-8xl text-gray-400"></i>
-                </div>
+              <div className="relative group">
+                <ProfileImage
+                  src={personalInfo.images?.profile?.src}
+                  alt={personalInfo.images?.profile?.alt || `${personalInfo.name} - Profile Picture`}
+                  size="2xl"
+                  className="animate-float shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                  showBorder={true}
+                />
                 
                 {/* Decorative rings */}
                 <div className="absolute inset-0 rounded-full border-4 border-primary-200 dark:border-primary-800 animate-pulse" />

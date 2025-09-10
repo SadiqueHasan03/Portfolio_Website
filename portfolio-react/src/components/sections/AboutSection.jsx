@@ -1,6 +1,7 @@
 import { personalInfo } from '../../data/portfolioData'
 import Card from '../ui/Card'
 import Button from '../ui/Button'
+import ImageWithFallback from '../ui/ImageWithFallback'
 import AnimatedSection from '../ui/AnimatedSection'
 
 function AboutSection() {
@@ -21,8 +22,13 @@ function AboutSection() {
           <AnimatedSection animation="fadeLeft" delay={200}>
             <div className="flex justify-center">
               <div className="relative group">
-                <div className="w-80 h-96 bg-gradient-to-br from-primary-100 to-secondary-100 dark:from-gray-700 dark:to-gray-800 rounded-2xl flex items-center justify-center overflow-hidden group-hover:scale-105 transition-transform duration-500">
-                  <i className="uil uil-user text-8xl text-gray-400 group-hover:scale-110 transition-transform duration-500"></i>
+                <div className="w-80 h-96 rounded-2xl overflow-hidden group-hover:scale-105 transition-transform duration-500 shadow-2xl">
+                  <ImageWithFallback
+                    src={personalInfo.images?.about?.src}
+                    alt={personalInfo.images?.about?.alt || `${personalInfo.name} - About Picture`}
+                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
+                    fallback="/images/placeholders/user-placeholder.svg"
+                  />
                 </div>
                 
                 {/* Decorative elements */}

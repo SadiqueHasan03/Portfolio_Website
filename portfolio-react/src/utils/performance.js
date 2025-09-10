@@ -100,38 +100,99 @@ export const performanceMonitor = {
 }
 
 /**
- * Image optimization utilities
+ * Enhanced image optimization utilities
  */
 export const imageOptimization = {
-  // Lazy load images
+  // Lazy load images with intersection observer
   setupLazyLoading() {
     if ('IntersectionObserver' in window) {
       const imageObserver = new IntersectionObserver((entries, observer) => {
         entries.forEach(entry => {
           if (entry.isIntersecting) {
             const img = entry.target
-            img.src = img.dataset.src
-            img.classList.remove('lazy')
-            observer.unobserve(img)
+            if (img.dataset.src) {
+              img.src = img.dataset.src
+              img.classList.remove('lazy')
+              img.classList.add('fade-in')
+              observer.unobserve(img)
+            }
           }
         })
+      }, {
+        threshold: 0.1,
+        rootMargin: '50px'
       })
 
       document.querySelectorAll('img[data-src]').forEach(img => {
         imageObserver.observe(img)
       })
+
+      return imageObserver
     }
   },
 
   // Preload critical images
   preloadCriticalImages(imagePaths) {
-    imagePaths.forEach(path => {
+    const criticalImages = [
+      '/images/profile/perfil.png',
+      '/images/profile/about.jpg',
+      ...imagePaths
+    ]
+
+    criticalImages.forEach(path => {
       const link = document.createElement('link')
       link.rel = 'preload'
       link.as = 'image'
       link.href = path
       document.head.appendChild(link)
     })
+  },
+
+  // Optimize image loading based on connection speed
+  getOptimalImageQuality() {
+    if ('connection' in navigator) {
+      const connection = navigator.connection
+      const effectiveType = connection.effectiveType
+      
+      switch (effectiveType) {
+        case 'slow-2g':
+        case '2g':
+          return 'low'
+        case '3g':
+          return 'medium'
+        case '4g':
+        default:
+          return 'high'
+      }
+    }
+    return 'high'
+  },
+
+  // Check if image format is supported
+  supportsWebP() {
+    const canvas = document.createElement('canvas')
+    canvas.width = 1
+    canvas.height = 1
+    return canvas.toDataURL('image/webp').indexOf('webp') > 0
+  },
+
+  // Generate responsive image URLs
+  generateResponsiveUrl(baseUrl, width, quality = 'auto') {
+    // This would integrate with a CDN service like Cloudinary
+    // For now, return the original URL
+    return baseUrl
+  },
+
+  // Monitor image loading performance
+  trackImagePerformance(imageSrc, loadTime) {
+    if ('performance' in window) {
+      performance.mark(`image-load-${imageSrc}-${Date.now()}`)
+      
+      // Log slow loading images
+      if (loadTime > 3000) {
+        console.warn(`Slow image loading detected: ${imageSrc} took ${loadTime}ms`)
+      }
+    }
   }
 }
 
