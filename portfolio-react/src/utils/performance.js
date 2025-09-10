@@ -29,7 +29,9 @@ export const performanceMonitor = {
           timeToInteractive: navigation.loadEventEnd - navigation.fetchStart
         }
         
-        console.log('Performance Metrics:', metrics)
+        if (import.meta.env.DEV) {
+          console.log('Performance Metrics:', metrics)
+        }
         return metrics
       }
     }
@@ -45,39 +47,54 @@ export const performanceMonitor = {
   // Get Largest Contentful Paint
   getLargestContentfulPaint() {
     return new Promise((resolve) => {
-      new PerformanceObserver((list) => {
-        const entries = list.getEntries()
-        const lastEntry = entries[entries.length - 1]
-        resolve(lastEntry.startTime)
-      }).observe({ entryTypes: ['largest-contentful-paint'] })
+      if ('PerformanceObserver' in window) {
+        new PerformanceObserver((list) => {
+          const entries = list.getEntries()
+          const lastEntry = entries[entries.length - 1]
+          resolve(lastEntry.startTime)
+        }).observe({ entryTypes: ['largest-contentful-paint'] })
+      } else {
+        // Fallback for browsers without PerformanceObserver
+        resolve(null)
+      }
     })
   },
 
   // Get First Input Delay
   getFirstInputDelay() {
     return new Promise((resolve) => {
-      new PerformanceObserver((list) => {
-        const firstInput = list.getEntries()[0]
-        if (firstInput) {
-          const fid = firstInput.processingStart - firstInput.startTime
-          resolve(fid)
-        }
-      }).observe({ entryTypes: ['first-input'] })
+      if ('PerformanceObserver' in window) {
+        new PerformanceObserver((list) => {
+          const firstInput = list.getEntries()[0]
+          if (firstInput) {
+            const fid = firstInput.processingStart - firstInput.startTime
+            resolve(fid)
+          }
+        }).observe({ entryTypes: ['first-input'] })
+      } else {
+        // Fallback for browsers without PerformanceObserver
+        resolve(null)
+      }
     })
   },
 
   // Get Cumulative Layout Shift
   getCumulativeLayoutShift() {
     return new Promise((resolve) => {
-      let clsValue = 0
-      new PerformanceObserver((list) => {
-        for (const entry of list.getEntries()) {
-          if (!entry.hadRecentInput) {
-            clsValue += entry.value
+      if ('PerformanceObserver' in window) {
+        let clsValue = 0
+        new PerformanceObserver((list) => {
+          for (const entry of list.getEntries()) {
+            if (!entry.hadRecentInput) {
+              clsValue += entry.value
+            }
           }
-        }
-        resolve(clsValue)
-      }).observe({ entryTypes: ['layout-shift'] })
+          resolve(clsValue)
+        }).observe({ entryTypes: ['layout-shift'] })
+      } else {
+        // Fallback for browsers without PerformanceObserver
+        resolve(null)
+      }
     })
   }
 }
@@ -165,7 +182,7 @@ export const resourcePreloader = {
 export const bundleAnalyzer = {
   // Analyze bundle size in development
   analyzeBundleSize() {
-    if (process.env.NODE_ENV === 'development') {
+    if (import.meta.env.DEV) {
       // This would integrate with bundle analyzer tools
       console.log('Bundle analysis would run here in development mode')
     }
@@ -173,8 +190,10 @@ export const bundleAnalyzer = {
 
   // Detect unused modules
   detectUnusedModules() {
-    // Implementation would depend on build tools
-    console.log('Unused module detection would run here')
+    if (import.meta.env.DEV) {
+      // Implementation would depend on build tools
+      console.log('Unused module detection would run here')
+    }
   }
 }
 

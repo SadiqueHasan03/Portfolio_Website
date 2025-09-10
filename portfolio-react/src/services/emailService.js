@@ -5,8 +5,13 @@ const EMAILJS_SERVICE_ID = 'service_fxrmbq9'
 const EMAILJS_TEMPLATE_ID = 'template_knt001v'
 const EMAILJS_PUBLIC_KEY = '505hKYguhDbLkUNQi'
 
-// Initialize EmailJS
-emailjs.init(EMAILJS_PUBLIC_KEY)
+// Initialize EmailJS only if not already initialized and in browser environment
+if (typeof window !== 'undefined' && (!window.emailjs || !window.emailjs._initialized)) {
+  emailjs.init(EMAILJS_PUBLIC_KEY)
+  if (window.emailjs) {
+    window.emailjs._initialized = true
+  }
+}
 
 export const emailService = {
   /**
@@ -36,7 +41,9 @@ export const emailService = {
         response
       }
     } catch (error) {
-      console.error('EmailJS Error:', error)
+      if (import.meta.env.DEV) {
+        console.error('EmailJS Error:', error)
+      }
       return {
         success: false,
         message: `Failed to send message: ${error.text || error.message}`,

@@ -30,7 +30,7 @@ function ContactSection() {
       } else {
         setSubmitStatus({ type: 'error', message: result.message })
       }
-    } catch (error) {
+    } catch (err) {
       setSubmitStatus({ 
         type: 'error', 
         message: 'An unexpected error occurred. Please try again.' 
@@ -148,7 +148,7 @@ function ContactSection() {
                     {...register('email', { 
                       required: 'Email is required',
                       pattern: {
-                        value: /^[^\\s@]+@[^\\s@]+\\.[^\\s@]+$/,
+                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
                         message: 'Please enter a valid email'
                       }
                     })}

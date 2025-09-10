@@ -1,24 +1,30 @@
-import { describe, it, expect, vi } from 'vitest'
+import { describe, it, expect, vi, beforeEach } from 'vitest'
 import { screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { renderWithProviders } from '../../test/testUtils.jsx'
 import ThemeToggle from './ThemeToggle'
 
 // Mock the store
+const mockToggleTheme = vi.fn()
+const mockStore = {
+  theme: 'light',
+  resolvedTheme: 'light',
+  toggleTheme: mockToggleTheme,
+  initializeTheme: vi.fn(),
+  setTheme: vi.fn(),
+  updateResolvedTheme: vi.fn()
+}
+
 vi.mock('../../stores/useAppStore', () => ({
-  default: vi.fn()
+  default: vi.fn(() => mockStore)
 }))
 
 describe('ThemeToggle Component', () => {
+  beforeEach(() => {
+    vi.clearAllMocks()
+  })
+
   it('renders theme toggle button', () => {
-    const mockStore = {
-      theme: 'light',
-      toggleTheme: vi.fn()
-    }
-    
-    const useAppStore = require('../../stores/useAppStore').default
-    useAppStore.mockReturnValue(mockStore)
-    
     renderWithProviders(<ThemeToggle />)
     
     const button = screen.getByRole('button')
@@ -27,14 +33,6 @@ describe('ThemeToggle Component', () => {
   })
 
   it('shows moon icon in light theme', () => {
-    const mockStore = {
-      theme: 'light',
-      toggleTheme: vi.fn()
-    }
-    
-    const useAppStore = require('../../stores/useAppStore').default
-    useAppStore.mockReturnValue(mockStore)
-    
     renderWithProviders(<ThemeToggle />)
     
     const icon = screen.getByRole('button').querySelector('i')
@@ -42,13 +40,27 @@ describe('ThemeToggle Component', () => {
   })
 
   it('shows sun icon in dark theme', () => {
-    const mockStore = {
-      theme: 'dark',
-      toggleTheme: vi.fn()
-    }
+    // Update mock store for dark theme
+    mockStore.theme = 'dark'
+    mockStore.resolvedTheme = 'dark'
     
-    const useAppStore = require('../../stores/useAppStore').default
-    useAppStore.mockReturnValue(mockStore)
+    renderWithProviders(<ThemeToggle />)
+    
+    const button = screen.getByRole('button')
+    expect(button).toHaveAttribute('aria-label', 'Switch to system theme')
+    
+    const icon = button.querySelector('i')
+    expect(icon).toHaveClass('uil-sun')
+    
+    // Reset for other tests
+    mockStore.theme = 'light'
+    mockStore.resolvedTheme = 'light'
+  })
+
+  it('shows laptop icon in system theme', () => {
+    // Update mock store for system theme
+    mockStore.theme = 'system'
+    mockStore.resolvedTheme = 'dark'
     
     renderWithProviders(<ThemeToggle />)
     
@@ -56,19 +68,15 @@ describe('ThemeToggle Component', () => {
     expect(button).toHaveAttribute('aria-label', 'Switch to light theme')
     
     const icon = button.querySelector('i')
-    expect(icon).toHaveClass('uil-sun')
+    expect(icon).toHaveClass('uil-laptop')
+    
+    // Reset for other tests
+    mockStore.theme = 'light'
+    mockStore.resolvedTheme = 'light'
   })
 
   it('calls toggleTheme when clicked', async () => {
     const user = userEvent.setup()
-    const mockToggleTheme = vi.fn()
-    const mockStore = {
-      theme: 'light',
-      toggleTheme: mockToggleTheme
-    }
-    
-    const useAppStore = require('../../stores/useAppStore').default
-    useAppStore.mockReturnValue(mockStore)
     
     renderWithProviders(<ThemeToggle />)
     

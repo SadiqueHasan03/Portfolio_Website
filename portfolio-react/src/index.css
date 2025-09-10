@@ -15,25 +15,34 @@
   }
 
   body {
-    @apply font-sans text-gray-700 bg-gray-50 transition-colors duration-300;
+    @apply font-sans antialiased bg-gray-50 text-gray-900;
+    transition: background-color 0.3s ease, color 0.3s ease;
   }
 
-  .dark {
-    @apply bg-gray-900 text-gray-200;
+  .dark body {
+    @apply bg-gray-900 text-gray-100;
   }
 }
 
 @layer components {
+  .card-base {
+    @apply bg-white dark:bg-gray-800 border border-gray-200 dark:border-gray-700 rounded-xl shadow-sm hover:shadow-md transition-all duration-300 hover:-translate-y-1;
+  }
+  
   .btn-primary {
-    @apply inline-flex items-center px-6 py-3 bg-primary-500 text-white font-medium rounded-lg hover:bg-primary-600 transition-colors duration-300;
+    @apply inline-flex items-center px-6 py-3 font-medium rounded-lg bg-blue-500 text-white shadow-sm hover:bg-blue-600 hover:shadow-md hover:-translate-y-px transition-all duration-300;
   }
 
   .btn-secondary {
-    @apply inline-flex items-center px-6 py-3 bg-transparent border-2 border-primary-500 text-primary-500 font-medium rounded-lg hover:bg-primary-500 hover:text-white transition-colors duration-300;
+    @apply inline-flex items-center px-6 py-3 bg-transparent border-2 border-blue-500 text-blue-500 font-medium rounded-lg hover:bg-blue-500 hover:text-white transition-colors duration-300;
+  }
+
+  .glass-effect {
+    @apply bg-white/5 backdrop-blur-xl border border-white/10 shadow-xl;
   }
 
   .glass-card {
-    @apply bg-white/10 backdrop-blur-md border border-white/20 rounded-2xl shadow-xl;
+    @apply glass-effect rounded-2xl shadow-xl;
   }
 
   .section-padding {
@@ -47,7 +56,7 @@
 
 @layer utilities {
   .text-gradient {
-    @apply bg-gradient-to-r from-primary-500 to-secondary-500 bg-clip-text text-transparent;
+    @apply bg-gradient-to-r from-blue-500 to-green-500 bg-clip-text text-transparent;
   }
 
   .animate-float {
@@ -61,5 +70,21 @@
     50% {
       transform: translateY(-20px);
     }
+  }
+
+  .focus-ring {
+    @apply focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 dark:focus:ring-blue-400 dark:focus:ring-offset-gray-900;
+  }
+}
+
+/* Respect user's motion preferences */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
   }
 }

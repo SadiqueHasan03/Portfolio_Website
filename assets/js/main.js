@@ -5,7 +5,7 @@ const navMenu = document.getElementById('nav-menu'),
 
 /*===== MENU SHOW =====*/
 /* Validate if constant exists */
-if(navToggle){
+if(navToggle && navMenu){
     navToggle.addEventListener('click', () => {
         navMenu.classList.add('show-menu')
     })
@@ -14,7 +14,7 @@ if(navToggle){
 
 /*===== MENU HIDDEN =====*/
 /* Validate if constant exists */
-if(navClose){
+if(navClose && navMenu){
     navClose.addEventListener('click', () =>{
         navMenu.classList.remove('show-menu')
     })
@@ -26,7 +26,9 @@ const navLink = document.querySelectorAll('.nav__link')
 function linkAction(){
     const navMenu = document.getElementById('nav-menu')
     // When we click on each nav__link, we remove the show-menu class
-    navMenu.classList.remove('show-menu')
+    if (navMenu) {
+        navMenu.classList.remove('show-menu')
+    }
 }
 navLink.forEach(n => n.addEventListener('click', linkAction))
 
@@ -90,12 +92,18 @@ function scrollActive(){
     sections.forEach(current =>{
         const sectionHeight = current.offsetHeight
         const sectionTop = current.offsetTop - 50;
-        sectionId = current.getAttribute('id')
+        const sectionId = current.getAttribute('id')
 
         if(scrollY > sectionTop && scrollY <= sectionTop + sectionHeight){
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+            const activeLink = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
+            if (activeLink) {
+                activeLink.classList.add('active-link')
+            }
         }else{
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+            const activeLink = document.querySelector('.nav__menu a[href*=' + sectionId + ']')
+            if (activeLink) {
+                activeLink.classList.remove('active-link')
+            }
         }
     })
 }
@@ -106,7 +114,9 @@ window.addEventListener('scroll', scrollActive)
 function scrollUp(){
     const scrollUp = document.getElementById('scroll-up');
     // When the scroll is higher than 560 viewport height, add the show-scroll class to the a tag with the scroll-top class
-    if(this.scrollY >= 560) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
+    if(scrollUp) {
+        if(this.scrollY >= 560) scrollUp.classList.add('show-scroll'); else scrollUp.classList.remove('show-scroll')
+    }
 }
 window.addEventListener('scroll', scrollUp)
 
@@ -128,21 +138,23 @@ const getCurrentTheme = () => document.body.classList.contains(darkTheme) ? 'dar
 const getCurrentIcon = () => themeButton.classList.contains(iconTheme) ? 'uil-moon' : 'uil-sun'
 
 // We validate if the user previously chose a topic
-if (selectedTheme) {
+if (selectedTheme && themeButton) {
   // If the validation is fulfilled, we ask what the issue was to know if we activated or deactivated the dark
   document.body.classList[selectedTheme === 'dark' ? 'add' : 'remove'](darkTheme)
   themeButton.classList[selectedIcon === 'uil-moon' ? 'add' : 'remove'](iconTheme)
 }
 
 // Activate / deactivate the theme manually with the button
-themeButton.addEventListener('click', () => {
-    // Add or remove the dark / icon theme
-    document.body.classList.toggle(darkTheme)
-    themeButton.classList.toggle(iconTheme)
-    // We save the theme and the current icon that the user chose
-    localStorage.setItem('selected-theme', getCurrentTheme())
-    localStorage.setItem('selected-icon', getCurrentIcon())
-})
+if (themeButton) {
+    themeButton.addEventListener('click', () => {
+        // Add or remove the dark / icon theme
+        document.body.classList.toggle(darkTheme)
+        themeButton.classList.toggle(iconTheme)
+        // We save the theme and the current icon that the user chose
+        localStorage.setItem('selected-theme', getCurrentTheme())
+        localStorage.setItem('selected-icon', getCurrentIcon())
+    })
+}
 
 
 //  Email sending from the form
@@ -150,15 +162,19 @@ themeButton.addEventListener('click', () => {
 document.querySelector(".contact__form").addEventListener("submit", function (e) {
     e.preventDefault(); // Prevent form from refreshing the page
 
-    emailjs.init("505hKYguhDbLkUNQi"); // Initialize EmailJS
+    // Initialize EmailJS only if not already initialized
+    if (typeof emailjs !== 'undefined' && !emailjs._initialized) {
+        emailjs.init("505hKYguhDbLkUNQi"); // Initialize EmailJS
+        emailjs._initialized = true;
+    }
 
     const serviceID = "service_fxrmbq9";
     const templateID = "template_knt001v";
 
     const formData = {
-        name: document.querySelector(".contact__form input[type='text']").value,
+        name: document.querySelector(".contact__form .contact__inputs .contact__input[type='text']").value,
         email: document.querySelector(".contact__form input[type='email']").value,
-        project: document.querySelector(".contact__form input[type='text']").value,
+        project: document.querySelector(".contact__form .contact__content:not(.contact__inputs) .contact__input[type='text']").value,
         message: document.querySelector(".contact__form textarea").value,
     };
 
@@ -166,6 +182,10 @@ document.querySelector(".contact__form").addEventListener("submit", function (e)
         .send(serviceID, templateID, formData)
         .then(
             () => alert("Message sent successfully!"),
-            (error) => alert("Failed to send message: " + error.text)
+            (error) => {
+                const errorMessage = error?.text || error?.message || 'Unknown error occurred'
+                alert("Failed to send message: " + errorMessage)
+                console.error('EmailJS Error:', error)
+            }
         );
 });

@@ -1,11 +1,42 @@
 import { create } from 'zustand'
+import { persist, createJSONStorage } from 'zustand/middleware'
 
-const useAppStore = create((set, get) => ({
-  // Theme state
-  theme: 'light',
-  toggleTheme: () => set((state) => ({
-    theme: state.theme === 'light' ? 'dark' : 'light'
-  })),
+const useAppStore = create(
+  persist(
+    (set, get) => ({
+      // Theme state with system detection
+      theme: 'system', // 'light' | 'dark' | 'system'
+      resolvedTheme: 'light', // actual computed theme
+      
+      // Initialize theme from system preference
+      initializeTheme: () => {
+        const systemPrefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches
+        const currentState = get()
+        
+        let resolvedTheme
+        if (currentState.theme === 'system') {
+          resolvedTheme = systemPrefersDark ? 'dark' : 'light'
+        } else {
+          resolvedTheme = currentState.theme
+        }
+        
+        set({ resolvedTheme })
+      },
+      
+      // Enhanced toggle with cycling through options
+      toggleTheme: () => set((state) => {
+        const themeOrder = ['light', 'dark', 'system']
+        const currentIndex = themeOrder.indexOf(state.theme)
+        const nextTheme = themeOrder[(currentIndex + 1) % themeOrder.length]
+        
+        return { theme: nextTheme }
+      }),
+      
+      // Set specific theme
+      setTheme: (theme) => set({ theme }),
+      
+      // Update resolved theme when system preference changes
+      updateResolvedTheme: (resolvedTheme) => set({ resolvedTheme }),
   
   // Navigation state
   activeSection: '',
@@ -30,9 +61,18 @@ const useAppStore = create((set, get) => ({
   activeQualificationTab: 'education',
   setActiveQualificationTab: (tab) => set({ activeQualificationTab: tab }),
   
-  // Contact form state
-  contactFormSubmitting: false,
-  setContactFormSubmitting: (submitting) => set({ contactFormSubmitting: submitting }),
-}))
+      // Contact form state
+      contactFormSubmitting: false,
+      setContactFormSubmitting: (submitting) => set({ contactFormSubmitting: submitting }),
+    }),
+    {
+      name: 'portfolio-theme-storage',
+      storage: createJSONStorage(() => localStorage),
+      partialize: (state) => ({ 
+        theme: state.theme 
+      }),
+    }
+  )
+)
 
 export default useAppStore
