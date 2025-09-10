@@ -1,8 +1,24 @@
-import { Link } from 'react-router-dom'
+import { Link, useLocation } from 'react-router-dom'
 import { personalInfo } from '../../data/portfolioData'
+import { smoothScrollTo } from '../../utils/helpers'
 
 function Footer() {
   const currentYear = new Date().getFullYear()
+  const location = useLocation()
+  const isHomePage = location.pathname === '/'
+
+  const handleAboutClick = (e) => {
+    if (isHomePage) {
+      e.preventDefault()
+      const aboutElement = document.getElementById('about')
+      if (aboutElement) {
+        smoothScrollTo('about', 80)
+      } else {
+        console.warn('About section not found on home page')
+      }
+    }
+    // If not on home page, let the Link component handle navigation
+  }
 
   return (
     <footer className="bg-gradient-to-r from-primary-600 to-secondary-600 text-white">
@@ -54,6 +70,7 @@ function Footer() {
               <li>
                 <Link
                   to="/#about"
+                  onClick={handleAboutClick}
                   className="text-primary-100 hover:text-white transition-colors duration-300"
                 >
                   About Me

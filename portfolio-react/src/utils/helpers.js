@@ -44,6 +44,7 @@ export const throttle = (func, limit) => {
  * Smooth scroll to element
  * @param {string} elementId - ID of target element
  * @param {number} offset - Offset from top in pixels
+ * @returns {boolean} True if successful, false if element not found
  */
 export const smoothScrollTo = (elementId, offset = 0) => {
   const element = document.getElementById(elementId)
@@ -55,6 +56,10 @@ export const smoothScrollTo = (elementId, offset = 0) => {
       top: offsetPosition,
       behavior: 'smooth'
     })
+    return true
+  } else {
+    console.warn(`Element with ID "${elementId}" not found for scrolling`)
+    return false
   }
 }
 

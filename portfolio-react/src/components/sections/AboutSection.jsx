@@ -5,6 +5,26 @@ import ImageWithFallback from '../ui/ImageWithFallback'
 import AnimatedSection from '../ui/AnimatedSection'
 
 function AboutSection() {
+  const handleDownloadCV = () => {
+    try {
+      // Create a temporary link element
+      const link = document.createElement('a')
+      link.href = '/assets/documents/Sadique_Hasan_CV.pdf'
+      link.download = 'Sadique_Hasan_CV.pdf'
+      link.target = '_blank'
+      
+      // Append link to body, click it, and remove it
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      
+      console.log('CV download initiated')
+    } catch (error) {
+      console.error('Failed to download CV:', error)
+      // Fallback: open in new tab
+      window.open('/assets/documents/Sadique_Hasan_CV.pdf', '_blank')
+    }
+  }
   return (
     <section id="about" className="section-padding">
       <div className="container-custom">
@@ -54,7 +74,11 @@ function AboutSection() {
               </Card>
 
               <AnimatedSection animation="fadeUp" delay={600}>
-                <Button variant="outline" className="group hover:scale-105 transition-transform duration-300">
+                <Button 
+                  variant="outline" 
+                  className="group hover:scale-105 transition-transform duration-300"
+                  onClick={handleDownloadCV}
+                >
                   Download CV 
                   <i className="uil uil-download-alt ml-2 group-hover:animate-bounce"></i>
                 </Button>

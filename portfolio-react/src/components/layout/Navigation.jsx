@@ -17,8 +17,20 @@ function Navigation({ mobile = false }) {
     if (isHomePage && item.href.startsWith('#')) {
       // Smooth scroll to section on home page
       const sectionId = item.href.substring(1)
-      smoothScrollTo(sectionId, 80)
-      setActiveSection(sectionId)
+      
+      // Check if target element exists
+      const targetElement = document.getElementById(sectionId)
+      if (targetElement) {
+        smoothScrollTo(sectionId, 80)
+        setActiveSection(sectionId)
+      } else {
+        console.warn(`Navigation target "${sectionId}" not found on page`)
+        // Fallback: scroll to top for missing sections
+        if (sectionId === 'home') {
+          window.scrollTo({ top: 0, behavior: 'smooth' })
+          setActiveSection('home')
+        }
+      }
     }
   }
 

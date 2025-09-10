@@ -47,6 +47,31 @@ export const skillsData = {
   }
 }
 
+// Services data
+export const servicesData = [
+  {
+    id: "web-development",
+    title: "Web Development",
+    icon: "uil-web-grid",
+    description: "Custom web applications using modern technologies like React, JavaScript, and responsive design principles.",
+    features: ["React/Vue.js Applications", "Responsive Design", "API Integration", "Modern UI/UX"]
+  },
+  {
+    id: "backend-development", 
+    title: "Backend Development",
+    icon: "uil-server-network",
+    description: "Scalable backend solutions with Java, Spring Boot, and robust database design.",
+    features: ["REST API Development", "Database Design", "Spring Boot", "System Architecture"]
+  },
+  {
+    id: "problem-solving",
+    title: "Problem Solving",
+    icon: "uil-brain",
+    description: "Algorithm design, optimization solutions, and competitive programming expertise.",
+    features: ["Data Structures", "Algorithm Optimization", "Code Review", "Performance Tuning"]
+  }
+]
+
 // Education and experience data
 export const qualificationData = {
   education: [
@@ -140,6 +165,6 @@ export const navigationItems = [
   { id: "about", label: "About", icon: "uil-user", href: "#about" },
   { id: "skills", label: "Skills", icon: "uil-file-alt", href: "#skills" },
   { id: "services", label: "Services", icon: "uil-briefcase", href: "#services" },
-  { id: "portfolio", label: "Portfolio", icon: "uil-scenery", href: "#portfolio" },
+  { id: "qualification", label: "Qualification", icon: "uil-graduation-cap", href: "#qualification" },
   { id: "contact", label: "Contact", icon: "uil-message", href: "#contact" }
 ]

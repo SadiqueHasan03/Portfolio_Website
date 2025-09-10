@@ -1,0 +1,10 @@
+This is a placeholder CV file for Sadique Hasan.
+
+In a real implementation, this would be replaced with an actual PDF resume.
+
+To use this functionality:
+1. Replace this file with your actual CV in PDF format
+2. Name it "Sadique_Hasan_CV.pdf" 
+3. Place it in the /public/assets/documents/ directory
+
+The download functionality will automatically work once the real PDF is in place.
