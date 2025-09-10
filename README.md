@@ -25,7 +25,7 @@ These instructions will get you a copy of the project up and running on your loc
    You can clone the repository by running the following command, replacing `your-username` and `your-repo-name` with the appropriate values:
 
    ```sh
-   [git clone https://github.com/sadique-hasan/portfolio.git](https://portfolio-website-sadique-hasan-official-21mddnptu.vercel.app/)
+   https://portfolio-website-sadique-hasan-official-21mddnptu.vercel.app/
    ```
 
    Alternatively, you can use the URL from your repository's page.
