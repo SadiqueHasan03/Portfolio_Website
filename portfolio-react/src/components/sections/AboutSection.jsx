@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { personalInfo } from '../../data/portfolioData'
 import Card from '../ui/Card'
 import Button from '../ui/Button'
@@ -6,13 +7,42 @@ import AnimatedSection from '../ui/AnimatedSection'
 import CV from '/assets/documents/Sadique_Hasan_CV.pdf'
 
 function AboutSection() {
-  const handleDownloadCV = () => {
-    const link = document.createElement('a')
-    link.href = CV
-    link.download = 'Sadique_Hasan_CV.pdf'
-    document.body.appendChild(link)
-    link.click()
-    document.body.removeChild(link)
+  const [isDownloading, setIsDownloading] = useState(false)
+  
+  const handleDownloadCV = async () => {
+    setIsDownloading(true)
+    try {
+      // Verify file accessibility
+      const response = await fetch(CV, { method: 'HEAD' })
+      if (!response.ok) {
+        throw new Error(`File not accessible: ${response.status}`)
+      }
+      
+      // Create download link with enhanced attributes
+      const link = document.createElement('a')
+      link.href = CV
+      link.download = 'Sadique_Hasan_CV.pdf'
+      link.setAttribute('target', '_blank')
+      link.setAttribute('rel', 'noopener noreferrer')
+      
+      // Trigger download
+      document.body.appendChild(link)
+      link.click()
+      document.body.removeChild(link)
+      
+      console.log('CV download initiated successfully')
+    } catch (error) {
+      console.error('CV download failed:', error)
+      
+      // User-friendly error message
+      const errorMessage = error.message.includes('fetch') 
+        ? 'Network error: Please check your connection and try again.'
+        : 'Sorry, the CV file is temporarily unavailable. Please try again later.'
+      
+      alert(errorMessage)
+    } finally {
+      setIsDownloading(false)
+    }
   }
   return (
     <section id="about" className="section-padding">
@@ -67,9 +97,19 @@ function AboutSection() {
                   variant="outline" 
                   className="group hover:scale-105 transition-transform duration-300"
                   onClick={handleDownloadCV}
+                  disabled={isDownloading}
                 >
-                  Download CV 
-                  <i className="uil uil-download-alt ml-2 group-hover:animate-bounce"></i>
+                  {isDownloading ? (
+                    <>
+                      Downloading... 
+                      <i className="uil uil-spinner ml-2 animate-spin"></i>
+                    </>
+                  ) : (
+                    <>
+                      Download CV 
+                      <i className="uil uil-download-alt ml-2 group-hover:animate-bounce"></i>
+                    </>
+                  )}
                 </Button>
               </AnimatedSection>
             </div>

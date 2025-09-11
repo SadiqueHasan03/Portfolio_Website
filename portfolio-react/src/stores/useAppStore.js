@@ -50,7 +50,7 @@ const useAppStore = create(
   closeMobileMenu: () => set({ mobileMenuOpen: false }),
   
   // Skills accordion state
-  openSkillSections: ['frontend'], // Start with frontend open
+  openSkillSections: ['frontend', 'backend'], // Start with both frontend and backend open
   toggleSkillSection: (section) => set((state) => ({
     openSkillSections: state.openSkillSections.includes(section)
       ? state.openSkillSections.filter(s => s !== section)

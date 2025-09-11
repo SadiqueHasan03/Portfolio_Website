@@ -67,12 +67,42 @@
     transform: rotate(0deg) !important;
   }
 
+  .animate-border-glow {
+    animation: borderGlow 4s ease-in-out infinite;
+  }
+
+  .animate-border-pulse {
+    animation: borderPulse 3s ease-in-out infinite;
+  }
+
   @keyframes float {
     0%, 100% {
       transform: translateY(0px);
     }
     50% {
       transform: translateY(-20px);
+    }
+  }
+
+  @keyframes borderGlow {
+    0%, 100% {
+      border-color: rgb(59 130 246 / 0.3);
+      box-shadow: 0 0 20px rgb(59 130 246 / 0.2);
+    }
+    50% {
+      border-color: rgb(34 197 94 / 0.5);
+      box-shadow: 0 0 30px rgb(34 197 94 / 0.3);
+    }
+  }
+
+  @keyframes borderPulse {
+    0%, 100% {
+      transform: scale(1);
+      opacity: 0.7;
+    }
+    50% {
+      transform: scale(1.05);
+      opacity: 1;
     }
   }
 
