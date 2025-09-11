@@ -8,8 +8,13 @@ import ContactSection from './ContactSection'
 vi.mock('@emailjs/browser', () => mockEmailJS)
 
 // Mock the store
+const mockStore = {
+  contactFormSubmitting: false,
+  setContactFormSubmitting: vi.fn()
+}
+
 vi.mock('../../stores/useAppStore', () => ({
-  default: vi.fn()
+  default: () => mockStore
 }))
 
 // Mock personal info
@@ -26,15 +31,9 @@ vi.mock('../../data/portfolioData', () => ({
 }))
 
 describe('ContactSection Component', () => {
-  const mockStore = {
-    contactFormSubmitting: false,
-    setContactFormSubmitting: vi.fn()
-  }
-
   beforeEach(() => {
-    const useAppStore = require('../../stores/useAppStore').default
-    useAppStore.mockReturnValue(mockStore)
     vi.clearAllMocks()
+    mockStore.contactFormSubmitting = false
   })
 
   it('renders contact section with form', () => {
@@ -112,13 +111,7 @@ describe('ContactSection Component', () => {
   })
 
   it('displays loading state when submitting', () => {
-    const submittingStore = {
-      ...mockStore,
-      contactFormSubmitting: true
-    }
-    
-    const useAppStore = require('../../stores/useAppStore').default
-    useAppStore.mockReturnValue(submittingStore)
+    mockStore.contactFormSubmitting = true
     
     renderWithProviders(<ContactSection />)
     

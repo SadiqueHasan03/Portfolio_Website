@@ -8,32 +8,70 @@ import Button from '../ui/Button'
 
 function ContactSection() {
   const { contactFormSubmitting, setContactFormSubmitting } = useAppStore()
-  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '' })
+  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '', fieldErrors: {} })
+  const [debugInfo, setDebugInfo] = useState(null)
   
   const {
     register,
     handleSubmit,
     formState: { errors },
-    reset
+    reset,
+    setError,
+    clearErrors
   } = useForm()
 
   const onSubmit = async (data) => {
     setContactFormSubmitting(true)
-    setSubmitStatus({ type: '', message: '' })
+    setSubmitStatus({ type: '', message: '', fieldErrors: {} })
+    setDebugInfo(null)
+    clearErrors()
 
     try {
+      // Log form submission attempt in development
+      if (import.meta.env.DEV) {
+        console.log('Contact form submission started:', data)
+      }
+      
       const result = await emailService.sendContactEmail(data)
       
+      if (import.meta.env.DEV) {
+        console.log('EmailService result:', result)
+        setDebugInfo(result)
+      }
+      
       if (result.success) {
-        setSubmitStatus({ type: 'success', message: result.message })
+        setSubmitStatus({ 
+          type: 'success', 
+          message: result.message,
+          fieldErrors: {}
+        })
         reset()
       } else {
-        setSubmitStatus({ type: 'error', message: result.message })
+        // Handle field-specific errors if available
+        if (result.fieldErrors) {
+          Object.keys(result.fieldErrors).forEach(field => {
+            setError(field, { 
+              type: 'server', 
+              message: result.fieldErrors[field] 
+            })
+          })
+        }
+        
+        setSubmitStatus({ 
+          type: 'error', 
+          message: result.message,
+          fieldErrors: result.fieldErrors || {}
+        })
       }
     } catch (err) {
+      if (import.meta.env.DEV) {
+        console.error('Contact form submission error:', err)
+      }
+      
       setSubmitStatus({ 
         type: 'error', 
-        message: 'An unexpected error occurred. Please try again.' 
+        message: 'An unexpected error occurred. Please try again.',
+        fieldErrors: {}
       })
     } finally {
       setContactFormSubmitting(false)
@@ -125,12 +163,23 @@ function ContactSection() {
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Name
                   </label>
                   <input
+                    id="name"
                     type="text"
-                    {...register('name', { required: 'Name is required' })}
+                    {...register('name', { 
+                      required: 'Name is required',
+                      maxLength: {
+                        value: 100,
+                        message: 'Name must be less than 100 characters'
+                      },
+                      pattern: {
+                        value: /^[a-zA-Z\s'-]+$/,
+                        message: 'Name can only contain letters, spaces, hyphens, and apostrophes'
+                      }
+                    })}
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
                     placeholder="Your name"
                   />
@@ -140,10 +189,11 @@ function ContactSection() {
                 </div>
 
                 <div>
-                  <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                  <label htmlFor="email" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                     Email
                   </label>
                   <input
+                    id="email"
                     type="email"
                     {...register('email', { 
                       required: 'Email is required',
@@ -162,12 +212,19 @@ function ContactSection() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="project" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Project
                 </label>
                 <input
+                  id="project"
                   type="text"
-                  {...register('project', { required: 'Project is required' })}
+                  {...register('project', { 
+                    required: 'Project or subject is required',
+                    maxLength: {
+                      value: 100,
+                      message: 'Project/subject must be less than 100 characters'
+                    }
+                  })}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
                   placeholder="Project or inquiry type"
                 />
@@ -177,12 +234,23 @@ function ContactSection() {
               </div>
 
               <div>
-                <label className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
+                <label htmlFor="message" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
                   Message
                 </label>
                 <textarea
+                  id="message"
                   rows={5}
-                  {...register('message', { required: 'Message is required' })}
+                  {...register('message', { 
+                    required: 'Message is required',
+                    minLength: {
+                      value: 5,
+                      message: 'Message must be at least 5 characters long'
+                    },
+                    maxLength: {
+                      value: 2000,
+                      message: 'Message must be less than 2000 characters'
+                    }
+                  })}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300 resize-none"
                   placeholder="Tell me about your project or inquiry..."
                 ></textarea>
@@ -193,13 +261,43 @@ function ContactSection() {
 
               {/* Status Message */}
               {submitStatus.message && (
-                <div className={`p-4 rounded-lg ${
+                <div className={`p-4 rounded-lg border ${
                   submitStatus.type === 'success'
-                    ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400'
-                    : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400'
+                    ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800'
+                    : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'
                 }`}>
-                  {submitStatus.message}
+                  <div className="flex items-start">
+                    <div className="flex-shrink-0">
+                      {submitStatus.type === 'success' ? (
+                        <i className="uil uil-check-circle text-lg"></i>
+                      ) : (
+                        <i className="uil uil-exclamation-triangle text-lg"></i>
+                      )}
+                    </div>
+                    <div className="ml-3">
+                      <p className="font-medium">{submitStatus.message}</p>
+                      {submitStatus.type === 'error' && Object.keys(submitStatus.fieldErrors || {}).length > 0 && (
+                        <ul className="mt-2 text-sm space-y-1">
+                          {Object.entries(submitStatus.fieldErrors).map(([field, error]) => (
+                            <li key={field}>• {error}</li>
+                          ))}
+                        </ul>
+                      )}
+                    </div>
+                  </div>
                 </div>
+              )}
+
+              {/* Development Debug Panel */}
+              {import.meta.env.DEV && debugInfo && (
+                <details className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
+                  <summary className="cursor-pointer text-sm font-medium text-gray-600 dark:text-gray-400">
+                    Debug Information (Development Only)
+                  </summary>
+                  <pre className="mt-2 text-xs text-gray-500 dark:text-gray-500 overflow-auto">
+                    {JSON.stringify(debugInfo, null, 2)}
+                  </pre>
+                </details>
               )}
 
               <Button
