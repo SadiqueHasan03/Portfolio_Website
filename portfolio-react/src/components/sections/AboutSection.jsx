@@ -4,7 +4,8 @@ import Card from '../ui/Card'
 import Button from '../ui/Button'
 import ImageWithFallback from '../ui/ImageWithFallback'
 import AnimatedSection from '../ui/AnimatedSection'
-import CV from '/assets/documents/Sadique_Hasan_CV.pdf'
+// CV file path - referencing public assets directly
+const CV_PATH = '/assets/documents/coming-soon.docx'
 
 function AboutSection() {
   const [isDownloading, setIsDownloading] = useState(false)
@@ -13,15 +14,15 @@ function AboutSection() {
     setIsDownloading(true)
     try {
       // Verify file accessibility
-      const response = await fetch(CV, { method: 'HEAD' })
+      const response = await fetch(CV_PATH, { method: 'HEAD' })
       if (!response.ok) {
         throw new Error(`File not accessible: ${response.status}`)
       }
       
       // Create download link with enhanced attributes
       const link = document.createElement('a')
-      link.href = CV
-      link.download = 'Sadique_Hasan_CV.pdf'
+      link.href = CV_PATH
+      link.download = 'Coming soon.docx' // Display name with space for user
       link.setAttribute('target', '_blank')
       link.setAttribute('rel', 'noopener noreferrer')
       

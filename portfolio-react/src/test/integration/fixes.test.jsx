@@ -81,7 +81,7 @@ describe('UI/UX Fixes Integration Tests', () => {
       fireEvent.click(downloadButton)
 
       await waitFor(() => {
-        expect(global.fetch).toHaveBeenCalledWith('/assets/documents/Sadique_Hasan_CV.pdf', { method: 'HEAD' })
+        expect(global.fetch).toHaveBeenCalledWith('/assets/documents/coming-soon.docx', { method: 'HEAD' })
       })
 
       expect(createElementSpy).toHaveBeenCalledWith('a')
