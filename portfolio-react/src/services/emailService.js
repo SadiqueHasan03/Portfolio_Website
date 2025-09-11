@@ -50,18 +50,46 @@ const initializeEmailJS = async () => {
       }
 
       if (!EMAILJS_PUBLIC_KEY) {
+        console.error('🚨 EmailJS Configuration Error:', {
+          timestamp: new Date().toISOString(),
+          error: 'EmailJS public key not configured',
+          availableEnvVars: {
+            serviceId: !!EMAILJS_SERVICE_ID,
+            templateId: !!EMAILJS_TEMPLATE_ID,
+            publicKey: !!EMAILJS_PUBLIC_KEY
+          },
+          currentDomain: window.location.hostname,
+          userAgent: navigator.userAgent
+        })
         reject(new Error('EmailJS public key not configured'))
         return
       }
 
+      // Enhanced logging for production debugging
+      console.log('🔧 EmailJS Initialization:', {
+        timestamp: new Date().toISOString(),
+        serviceId: EMAILJS_SERVICE_ID || 'NOT_SET',
+        templateId: EMAILJS_TEMPLATE_ID || 'NOT_SET',
+        publicKey: EMAILJS_PUBLIC_KEY ? `${EMAILJS_PUBLIC_KEY.substring(0, 8)}...` : 'NOT_SET',
+        currentDomain: window.location.hostname,
+        currentOrigin: window.location.origin,
+        environment: import.meta.env.MODE || 'unknown'
+      })
+
       emailjs.init(EMAILJS_PUBLIC_KEY)
       isInitialized = true
       
-
+      console.log('✅ EmailJS initialized successfully')
       
       resolve(true)
     } catch (error) {
-
+      console.error('🚨 EmailJS Initialization Failed:', {
+        timestamp: new Date().toISOString(),
+        error: error.message,
+        stack: error.stack,
+        currentDomain: window.location.hostname,
+        currentOrigin: window.location.origin
+      })
       reject(error)
     }
   })
@@ -231,6 +259,17 @@ export const emailService = {
 
       // Validate configuration
       if (!this.isConfigured()) {
+        console.error('🚨 EmailJS Configuration Missing:', {
+          timestamp: new Date().toISOString(),
+          serviceId: !!EMAILJS_SERVICE_ID,
+          templateId: !!EMAILJS_TEMPLATE_ID,
+          publicKey: !!EMAILJS_PUBLIC_KEY,
+          serviceIdValue: EMAILJS_SERVICE_ID || 'undefined',
+          templateIdValue: EMAILJS_TEMPLATE_ID || 'undefined',
+          publicKeyValue: EMAILJS_PUBLIC_KEY ? `${EMAILJS_PUBLIC_KEY.substring(0, 8)}...` : 'undefined',
+          environment: import.meta.env.MODE || 'unknown',
+          currentDomain: typeof window !== 'undefined' ? window.location.hostname : 'unknown'
+        })
         throw new Error('EmailJS service not properly configured')
       }
 
@@ -309,10 +348,17 @@ export const emailService = {
         errorMessage: error.message || 'Unknown error',
         errorText: error.text || 'No error text',
         errorStatus: error.status || 'No status',
+        errorName: error.name || 'Unknown error type',
         errorType: errorType,
         serviceId: EMAILJS_SERVICE_ID,
         templateId: EMAILJS_TEMPLATE_ID,
-        stackTrace: error.stack
+        publicKey: EMAILJS_PUBLIC_KEY ? `${EMAILJS_PUBLIC_KEY.substring(0, 8)}...` : 'NOT_SET',
+        currentDomain: typeof window !== 'undefined' ? window.location.hostname : 'unknown',
+        currentOrigin: typeof window !== 'undefined' ? window.location.origin : 'unknown',
+        userAgent: typeof navigator !== 'undefined' ? navigator.userAgent : 'unknown',
+        stackTrace: error.stack,
+        formDataKeys: Object.keys(sanitizedData || {}),
+        emailDataKeys: typeof emailData !== 'undefined' ? Object.keys(emailData) : []
       })
 
       
