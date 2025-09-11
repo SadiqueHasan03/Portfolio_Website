@@ -117,13 +117,13 @@ function HeroSection() {
                   src={personalInfo.images?.profile?.src}
                   alt={personalInfo.images?.profile?.alt || `${personalInfo.name} - Profile Picture`}
                   size="2xl"
-                  className="animate-float shadow-2xl group-hover:scale-105 transition-transform duration-500"
+                  className="animate-float shadow-2xl group-hover:scale-105 transition-transform duration-500 no-rotate"
                   showBorder={true}
                 />
                 
                 {/* Decorative rings */}
-                <div className="absolute inset-0 rounded-full border-4 border-primary-200 dark:border-primary-800 animate-pulse" />
-                <div className="absolute inset-4 rounded-full border-2 border-secondary-200 dark:border-secondary-800 animate-pulse" style={{ animationDelay: '1s' }} />
+                <div className="absolute inset-0 rounded-full border-4 border-primary-200 dark:border-primary-800 animate-pulse animate-rotate-slow" />
+                <div className="absolute inset-4 rounded-full border-2 border-secondary-200 dark:border-secondary-800 animate-pulse animate-rotate-slow" style={{ animationDelay: '1s' }} />
               </div>
               
               {/* Floating elements */}

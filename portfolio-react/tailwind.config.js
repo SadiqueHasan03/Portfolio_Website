@@ -65,6 +65,7 @@ export default {
         'bounce-slow': 'bounce 2s infinite',
         'pulse-slow': 'pulse 3s infinite',
         'theme-transition': 'themeTransition 0.3s ease-in-out',
+        'rotate-slow': 'rotate 10s linear infinite',
       },
       keyframes: {
         fadeIn: {
@@ -79,6 +80,10 @@ export default {
           '0%': { opacity: '0.95' },
           '50%': { opacity: '0.98' },
           '100%': { opacity: '1' },
+        },
+        rotate: {
+          '0%': { transform: 'rotate(0deg)' },
+          '100%': { transform: 'rotate(360deg)' },
         },
       },
     },

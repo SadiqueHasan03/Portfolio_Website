@@ -3,27 +3,16 @@ import Card from '../ui/Card'
 import Button from '../ui/Button'
 import ImageWithFallback from '../ui/ImageWithFallback'
 import AnimatedSection from '../ui/AnimatedSection'
+import CV from '/assets/documents/Sadique_Hasan_CV.pdf'
 
 function AboutSection() {
   const handleDownloadCV = () => {
-    try {
-      // Create a temporary link element
-      const link = document.createElement('a')
-      link.href = '/assets/documents/Sadique_Hasan_CV.pdf'
-      link.download = 'Sadique_Hasan_CV.pdf'
-      link.target = '_blank'
-      
-      // Append link to body, click it, and remove it
-      document.body.appendChild(link)
-      link.click()
-      document.body.removeChild(link)
-      
-      console.log('CV download initiated')
-    } catch (error) {
-      console.error('Failed to download CV:', error)
-      // Fallback: open in new tab
-      window.open('/assets/documents/Sadique_Hasan_CV.pdf', '_blank')
-    }
+    const link = document.createElement('a')
+    link.href = CV
+    link.download = 'Sadique_Hasan_CV.pdf'
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
   }
   return (
     <section id="about" className="section-padding">
