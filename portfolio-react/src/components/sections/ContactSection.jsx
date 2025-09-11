@@ -9,7 +9,7 @@ import Button from '../ui/Button'
 function ContactSection() {
   const { contactFormSubmitting, setContactFormSubmitting } = useAppStore()
   const [submitStatus, setSubmitStatus] = useState({ type: '', message: '', fieldErrors: {} })
-  const [debugInfo, setDebugInfo] = useState(null)
+
   
   const {
     register,
@@ -23,21 +23,15 @@ function ContactSection() {
   const onSubmit = async (data) => {
     setContactFormSubmitting(true)
     setSubmitStatus({ type: '', message: '', fieldErrors: {} })
-    setDebugInfo(null)
+
     clearErrors()
 
     try {
-      // Log form submission attempt in development
-      if (import.meta.env.DEV) {
-        console.log('Contact form submission started:', data)
-      }
+
       
       const result = await emailService.sendContactEmail(data)
       
-      if (import.meta.env.DEV) {
-        console.log('EmailService result:', result)
-        setDebugInfo(result)
-      }
+
       
       if (result.success) {
         setSubmitStatus({ 
@@ -64,9 +58,7 @@ function ContactSection() {
         })
       }
     } catch (err) {
-      if (import.meta.env.DEV) {
-        console.error('Contact form submission error:', err)
-      }
+
       
       setSubmitStatus({ 
         type: 'error', 
@@ -288,17 +280,7 @@ function ContactSection() {
                 </div>
               )}
 
-              {/* Development Debug Panel */}
-              {import.meta.env.DEV && debugInfo && (
-                <details className="bg-gray-100 dark:bg-gray-800 p-4 rounded-lg">
-                  <summary className="cursor-pointer text-sm font-medium text-gray-600 dark:text-gray-400">
-                    Debug Information (Development Only)
-                  </summary>
-                  <pre className="mt-2 text-xs text-gray-500 dark:text-gray-500 overflow-auto">
-                    {JSON.stringify(debugInfo, null, 2)}
-                  </pre>
-                </details>
-              )}
+
 
               <Button
                 type="submit"

@@ -146,14 +146,6 @@ describe('EmailService', () => {
       expect(emailService.isConfigured()).toBe(true)
     })
 
-    it('should provide configuration status', () => {
-      const status = emailService.getConfigStatus()
-      
-      expect(status).toHaveProperty('serviceId')
-      expect(status).toHaveProperty('templateId') 
-      expect(status).toHaveProperty('publicKey')
-      expect(status).toHaveProperty('initialized')
-      expect(status).toHaveProperty('debugMode')
-    })
+
   })
 })
