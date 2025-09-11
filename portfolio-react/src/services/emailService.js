@@ -14,7 +14,10 @@ const ERROR_TYPES = {
   RATE_LIMIT: 'RATE_LIMIT',
   VALIDATION_ERROR: 'VALIDATION_ERROR',
   SERVER_ERROR: 'SERVER_ERROR',
-  TIMEOUT_ERROR: 'TIMEOUT_ERROR'
+  TIMEOUT_ERROR: 'TIMEOUT_ERROR',
+  TEMPLATE_ERROR: 'TEMPLATE_ERROR',
+  DOMAIN_RESTRICTION: 'DOMAIN_RESTRICTION',
+  SERVICE_CONFIGURATION: 'SERVICE_CONFIGURATION'
 }
 
 // Error messages for user-friendly feedback
@@ -25,6 +28,9 @@ const ERROR_MESSAGES = {
   [ERROR_TYPES.VALIDATION_ERROR]: 'Please check your input and try again.',
   [ERROR_TYPES.SERVER_ERROR]: 'Server error. Please try again later.',
   [ERROR_TYPES.TIMEOUT_ERROR]: 'Request timed out. Please try again.',
+  [ERROR_TYPES.TEMPLATE_ERROR]: 'Email template configuration issue. Please try again later.',
+  [ERROR_TYPES.DOMAIN_RESTRICTION]: 'Service not available from this domain. Please contact support.',
+  [ERROR_TYPES.SERVICE_CONFIGURATION]: 'Email service configuration issue. Please try again later.',
   DEFAULT: 'An unexpected error occurred. Please try again.'
 }
 
@@ -150,6 +156,25 @@ const classifyError = (error) => {
   const errorMessage = error.message || error.text || ''
   const errorStatus = error.status || 0
 
+  // Check for specific EmailJS error patterns
+  // Template field errors (missing required template variables)
+  if (errorMessage.includes('template') || errorMessage.includes('Template') || 
+      errorMessage.includes('variable') || errorMessage.includes('field')) {
+    return ERROR_TYPES.TEMPLATE_ERROR
+  }
+
+  // Domain restriction errors
+  if (errorStatus === 403 || errorMessage.includes('domain') || 
+      errorMessage.includes('origin') || errorMessage.includes('CORS')) {
+    return ERROR_TYPES.DOMAIN_RESTRICTION
+  }
+
+  // Service configuration errors
+  if (errorMessage.includes('service') || errorMessage.includes('Service') ||
+      errorMessage.includes('configuration') || errorMessage.includes('key')) {
+    return ERROR_TYPES.SERVICE_CONFIGURATION
+  }
+
   // Network errors
   if (errorMessage.includes('Network') || errorMessage.includes('fetch') || errorStatus === 0) {
     return ERROR_TYPES.NETWORK_ERROR
@@ -161,7 +186,7 @@ const classifyError = (error) => {
   }
 
   // Authentication/credentials
-  if (errorStatus === 401 || errorStatus === 403 || errorMessage.includes('unauthorized') || errorMessage.includes('forbidden')) {
+  if (errorStatus === 401 || errorMessage.includes('unauthorized') || errorMessage.includes('forbidden')) {
     return ERROR_TYPES.INVALID_CREDENTIALS
   }
 
@@ -243,6 +268,7 @@ export const emailService = {
         message: sanitizedData.message,
         from_name: sanitizedData.name,
         from_email: sanitizedData.email,
+        reply_to: sanitizedData.email, // Add missing reply_to field for EmailJS template
         to_name: 'Sadique Hasan',
         timestamp: new Date().toISOString()
       }
@@ -258,6 +284,14 @@ export const emailService = {
       // Race between email sending and timeout
       const response = await Promise.race([emailPromise, timeoutPromise])
       
+      // Enhanced logging for successful emails
+      console.log('✅ Email sent successfully:', {
+        timestamp: new Date().toISOString(),
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: EMAILJS_TEMPLATE_ID,
+        status: response?.status || 'success',
+        text: response?.text || 'Email delivered'
+      })
 
       
       return {
@@ -269,11 +303,28 @@ export const emailService = {
       const errorType = classifyError(error)
       const userMessage = ERROR_MESSAGES[errorType] || ERROR_MESSAGES.DEFAULT
       
+      // Enhanced error logging with actual EmailJS response details
+      console.error('❌ EmailJS Error Details:', {
+        timestamp: new Date().toISOString(),
+        errorMessage: error.message || 'Unknown error',
+        errorText: error.text || 'No error text',
+        errorStatus: error.status || 'No status',
+        errorType: errorType,
+        serviceId: EMAILJS_SERVICE_ID,
+        templateId: EMAILJS_TEMPLATE_ID,
+        stackTrace: error.stack
+      })
 
       
       // Provide more specific error messages based on the error type
       let specificMessage = userMessage
-      if (errorType === ERROR_TYPES.INVALID_CREDENTIALS) {
+      if (errorType === ERROR_TYPES.TEMPLATE_ERROR) {
+        specificMessage = 'Email template issue detected. The service has been updated to fix this. Please try again.'
+      } else if (errorType === ERROR_TYPES.DOMAIN_RESTRICTION) {
+        specificMessage = 'Access restricted from this domain. Please contact support if this issue persists.'
+      } else if (errorType === ERROR_TYPES.SERVICE_CONFIGURATION) {
+        specificMessage = 'Email service configuration issue. Please try again in a moment.'
+      } else if (errorType === ERROR_TYPES.INVALID_CREDENTIALS) {
         specificMessage = 'Email service configuration issue. Please try again later.'
       } else if (errorType === ERROR_TYPES.NETWORK_ERROR) {
         specificMessage = 'Network connection issue. Please check your internet and try again.'
