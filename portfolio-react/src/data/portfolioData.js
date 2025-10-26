@@ -20,7 +20,7 @@ export const personalInfo = {
   socialLinks: {
     linkedin: "https://www.linkedin.com/in/sadique-hasan/",
     github: "https://www.github.com/SadiqueHasan03",
-    instagram: "#"
+    LeetCode: "https://leetcode.com/u/Sadique_Hasan/"
   }
 }
 

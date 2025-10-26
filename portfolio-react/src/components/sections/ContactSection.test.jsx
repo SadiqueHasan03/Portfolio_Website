@@ -25,7 +25,7 @@ vi.mock('../../data/portfolioData', () => ({
     socialLinks: {
       linkedin: 'https://linkedin.com/test',
       github: 'https://github.com/test',
-      instagram: 'https://instagram.com/test'
+      LeetCode: 'https://leetcode.com/test'
     }
   }
 }))

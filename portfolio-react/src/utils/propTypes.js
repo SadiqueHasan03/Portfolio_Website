@@ -10,7 +10,7 @@ export const PersonalInfoPropTypes = PropTypes.shape({
   socialLinks: PropTypes.shape({
     linkedin: PropTypes.string,
     github: PropTypes.string,
-    instagram: PropTypes.string
+    LeetCode: PropTypes.string
   }).isRequired
 })
 

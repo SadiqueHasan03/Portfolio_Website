@@ -73,7 +73,7 @@ export const testPersonalInfo = {
   socialLinks: {
     linkedin: 'https://linkedin.com/test',
     github: 'https://github.com/test',
-    instagram: 'https://instagram.com/test'
+    LeetCode: 'https://leetcode.com/test'
   }
 }
 
