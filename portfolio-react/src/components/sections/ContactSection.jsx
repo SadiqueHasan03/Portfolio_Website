@@ -1,73 +1,22 @@
-import { useState } from 'react'
-import { useForm } from 'react-hook-form'
-import useAppStore from '../../stores/useAppStore'
-import { personalInfo } from '../../data/portfolioData'
-import { emailService } from '../../services/emailService'
-import Card from '../ui/Card'
-import Button from '../ui/Button'
+import { useForm, ValidationError } from '@formspree/react';
+import { personalInfo } from '../../data/portfolioData';
+import Card from '../ui/Card';
+import Button from '../ui/Button';
 
 function ContactSection() {
-  const { contactFormSubmitting, setContactFormSubmitting } = useAppStore()
-  const [submitStatus, setSubmitStatus] = useState({ type: '', message: '', fieldErrors: {} })
+  const [state, handleSubmit] = useForm("mdkpoqpw");
 
-  
-  const {
-    register,
-    handleSubmit,
-    formState: { errors },
-    reset,
-    setError,
-    clearErrors
-  } = useForm()
-
-  const onSubmit = async (data) => {
-    setContactFormSubmitting(true)
-    setSubmitStatus({ type: '', message: '', fieldErrors: {} })
-
-    clearErrors()
-
-    try {
-
-      
-      const result = await emailService.sendContactEmail(data)
-      
-
-      
-      if (result.success) {
-        setSubmitStatus({ 
-          type: 'success', 
-          message: result.message,
-          fieldErrors: {}
-        })
-        reset()
-      } else {
-        // Handle field-specific errors if available
-        if (result.fieldErrors) {
-          Object.keys(result.fieldErrors).forEach(field => {
-            setError(field, { 
-              type: 'server', 
-              message: result.fieldErrors[field] 
-            })
-          })
-        }
-        
-        setSubmitStatus({ 
-          type: 'error', 
-          message: result.message,
-          fieldErrors: result.fieldErrors || {}
-        })
-      }
-    } catch (err) {
-
-      
-      setSubmitStatus({ 
-        type: 'error', 
-        message: 'An unexpected error occurred. Please try again.',
-        fieldErrors: {}
-      })
-    } finally {
-      setContactFormSubmitting(false)
-    }
+  if (state.succeeded) {
+      return (
+        <section id="contact" className="section-padding bg-gray-50 dark:bg-gray-900">
+          <div className="container-custom">
+            <div className="max-w-2xl mx-auto text-center">
+                <h2 className="text-3xl md:text-4xl font-bold mb-4">Thanks for your message!</h2>
+                <p className="text-gray-600 dark:text-gray-400">I'll get back to you as soon as possible.</p>
+            </div>
+          </div>
+        </section>
+      );
   }
 
   return (
@@ -152,7 +101,7 @@ function ContactSection() {
 
           {/* Contact Form */}
           <Card>
-            <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label htmlFor="name" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2">
@@ -161,23 +110,16 @@ function ContactSection() {
                   <input
                     id="name"
                     type="text"
-                    {...register('name', { 
-                      required: 'Name is required',
-                      maxLength: {
-                        value: 100,
-                        message: 'Name must be less than 100 characters'
-                      },
-                      pattern: {
-                        value: /^[a-zA-Z\s'-]+$/,
-                        message: 'Name can only contain letters, spaces, hyphens, and apostrophes'
-                      }
-                    })}
+                    name="name"
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
                     placeholder="Your name"
                   />
-                  {errors.name && (
-                    <p className="mt-1 text-sm text-red-500">{errors.name.message}</p>
-                  )}
+                  <ValidationError 
+                    prefix="Name" 
+                    field="name"
+                    errors={state.errors}
+                    className="mt-1 text-sm text-red-500"
+                  />
                 </div>
 
                 <div>
@@ -187,19 +129,16 @@ function ContactSection() {
                   <input
                     id="email"
                     type="email"
-                    {...register('email', { 
-                      required: 'Email is required',
-                      pattern: {
-                        value: /^[^\s@]+@[^\s@]+\.[^\s@]+$/,
-                        message: 'Please enter a valid email'
-                      }
-                    })}
+                    name="email"
                     className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
                     placeholder="your.email@example.com"
                   />
-                  {errors.email && (
-                    <p className="mt-1 text-sm text-red-500">{errors.email.message}</p>
-                  )}
+                  <ValidationError 
+                    prefix="Email" 
+                    field="email"
+                    errors={state.errors}
+                    className="mt-1 text-sm text-red-500"
+                  />
                 </div>
               </div>
 
@@ -210,19 +149,16 @@ function ContactSection() {
                 <input
                   id="project"
                   type="text"
-                  {...register('project', { 
-                    required: 'Project or subject is required',
-                    maxLength: {
-                      value: 100,
-                      message: 'Project/subject must be less than 100 characters'
-                    }
-                  })}
+                  name="project"
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300"
                   placeholder="Project or inquiry type"
                 />
-                {errors.project && (
-                  <p className="mt-1 text-sm text-red-500">{errors.project.message}</p>
-                )}
+                <ValidationError 
+                  prefix="Project" 
+                  field="project"
+                  errors={state.errors}
+                  className="mt-1 text-sm text-red-500"
+                />
               </div>
 
               <div>
@@ -231,63 +167,25 @@ function ContactSection() {
                 </label>
                 <textarea
                   id="message"
+                  name="message"
                   rows={5}
-                  {...register('message', { 
-                    required: 'Message is required',
-                    minLength: {
-                      value: 5,
-                      message: 'Message must be at least 5 characters long'
-                    },
-                    maxLength: {
-                      value: 2000,
-                      message: 'Message must be less than 2000 characters'
-                    }
-                  })}
                   className="w-full px-4 py-3 border border-gray-300 dark:border-gray-600 rounded-lg focus:ring-2 focus:ring-primary-500 focus:border-transparent dark:bg-gray-700 dark:text-white transition-colors duration-300 resize-none"
                   placeholder="Tell me about your project or inquiry..."
                 ></textarea>
-                {errors.message && (
-                  <p className="mt-1 text-sm text-red-500">{errors.message.message}</p>
-                )}
+                <ValidationError 
+                  prefix="Message" 
+                  field="message"
+                  errors={state.errors}
+                  className="mt-1 text-sm text-red-500"
+                />
               </div>
-
-              {/* Status Message */}
-              {submitStatus.message && (
-                <div className={`p-4 rounded-lg border ${
-                  submitStatus.type === 'success'
-                    ? 'bg-green-50 dark:bg-green-900/20 text-green-700 dark:text-green-400 border-green-200 dark:border-green-800'
-                    : 'bg-red-50 dark:bg-red-900/20 text-red-700 dark:text-red-400 border-red-200 dark:border-red-800'
-                }`}>
-                  <div className="flex items-start">
-                    <div className="flex-shrink-0">
-                      {submitStatus.type === 'success' ? (
-                        <i className="uil uil-check-circle text-lg"></i>
-                      ) : (
-                        <i className="uil uil-exclamation-triangle text-lg"></i>
-                      )}
-                    </div>
-                    <div className="ml-3">
-                      <p className="font-medium">{submitStatus.message}</p>
-                      {submitStatus.type === 'error' && Object.keys(submitStatus.fieldErrors || {}).length > 0 && (
-                        <ul className="mt-2 text-sm space-y-1">
-                          {Object.entries(submitStatus.fieldErrors).map(([field, error]) => (
-                            <li key={field}>• {error}</li>
-                          ))}
-                        </ul>
-                      )}
-                    </div>
-                  </div>
-                </div>
-              )}
-
-
 
               <Button
                 type="submit"
-                disabled={contactFormSubmitting}
+                disabled={state.submitting}
                 className="w-full"
               >
-                {contactFormSubmitting ? (
+                {state.submitting ? (
                   <>
                     <div className="animate-spin rounded-full h-4 w-4 border-b-2 border-white mr-2"></div>
                     Sending...

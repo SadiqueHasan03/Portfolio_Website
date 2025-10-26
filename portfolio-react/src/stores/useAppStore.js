@@ -61,9 +61,7 @@ const useAppStore = create(
   activeQualificationTab: 'education',
   setActiveQualificationTab: (tab) => set({ activeQualificationTab: tab }),
   
-      // Contact form state
-      contactFormSubmitting: false,
-      setContactFormSubmitting: (submitting) => set({ contactFormSubmitting: submitting }),
+
     }),
     {
       name: 'portfolio-theme-storage',
