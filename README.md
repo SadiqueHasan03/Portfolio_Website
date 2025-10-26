@@ -7,6 +7,7 @@ This is a personal portfolio website built with React, Vite, and Tailwind CSS. I
 - **Responsive Design:** The website is fully responsive and works on all devices.
 - **Project Showcase:** A dedicated section to display my work with details and links.
 - **Contact Form:** A functional contact form for visitors to get in touch.
+- **Social Links:** Direct links to LinkedIn, GitHub, and LeetCode profiles.
 - **Animations:** Smooth animations and transitions to enhance user experience.
 
 ## Getting Started
@@ -22,31 +23,27 @@ These instructions will get you a copy of the project up and running on your loc
 
 1. **Clone the repository:**
 
-   You can clone the repository by running the following command, replacing `your-username` and `your-repo-name` with the appropriate values:
-
-   ```sh
-   https://portfolio-website-sadique-hasan-official-21mddnptu.vercel.app/
-   ```
-
-   Alternatively, you can use the URL from your repository's page.
+```sh
+    git clone https://github.com/SadiqueHasan03/Portfolio_Website.git
+```
 
 2. **Navigate to the project directory:**
 
-   ```sh
-   cd your-repo-name/portfolio-react
-   ```
+```sh
+cd Portfolio_Website/portfolio-react
+```
 
-2. **Install dependencies:**
+3. **Install dependencies:**
 
-   ```sh
-   npm install
-   ```
-   or
-   ```sh
-   yarn install
-   ```
+```sh
+npm install
+```
+or
+```sh
+yarn install
+```
 
-3. **Set up environment variables:**
+4. **Set up environment variables:**
 
    Create a `.env` file in the `portfolio-react` directory by copying the example file:
 
@@ -83,6 +80,7 @@ In the project directory, you can run the following scripts:
 - **Tailwind CSS:** A utility-first CSS framework.
 - **React Router:** For routing and navigation.
 - **Framer Motion:** For animations.
+- **Unicons:** For consistent iconography across the site.
 - **EmailJS:** For handling the contact form.
 - **Vitest:** For running tests.
 
