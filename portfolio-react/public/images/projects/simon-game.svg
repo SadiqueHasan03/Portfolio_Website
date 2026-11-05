@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="48" y1="11" x2="744" y2="488" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#17122E"/>
+      <stop offset="1" stop-color="#39205A"/>
+    </linearGradient>
+    <filter id="shadow" x="419" y="70" width="324" height="346" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feDropShadow dx="0" dy="14" stdDeviation="17" flood-color="#080617" flood-opacity=".5"/>
+    </filter>
+  </defs>
+  <rect width="800" height="500" rx="28" fill="url(#bg)"/>
+  <circle cx="686" cy="97" r="144" fill="#C084FC" fill-opacity=".12"/>
+  <circle cx="106" cy="427" r="142" fill="#FB7185" fill-opacity=".08"/>
+  <text x="54" y="83" fill="#E3A7FF" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="3">MEMORY · RHYTHM · REPEAT</text>
+  <text x="50" y="148" fill="#FFF8FF" font-family="Arial,sans-serif" font-size="48" font-weight="700">The Simon Game</text>
+  <text x="54" y="187" fill="#D0B8E1" font-family="Arial,sans-serif" font-size="18">Watch the pattern. Make it yours.</text>
+  <rect x="54" y="226" width="147" height="40" rx="20" fill="#5A3277"/>
+  <circle cx="76" cy="246" r="6" fill="#FF8AC9"/>
+  <text x="92" y="251" fill="#FFF0FF" font-family="Arial,sans-serif" font-size="14">LEVEL 08</text>
+  <g filter="url(#shadow)">
+    <circle cx="579" cy="242" r="139" fill="#100D20"/>
+    <path d="M579 110a132 132 0 0 0-132 132h132V110Z" fill="#FB7185"/>
+    <path d="M579 110a132 132 0 0 1 132 132H579V110Z" fill="#FBBF24"/>
+    <path d="M447 242a132 132 0 0 0 132 132V242H447Z" fill="#34D399"/>
+    <path d="M711 242a132 132 0 0 1-132 132V242h132Z" fill="#60A5FA"/>
+    <circle cx="579" cy="242" r="50" fill="#19132C" stroke="#3C2B55" stroke-width="5"/>
+    <text x="579" y="239" text-anchor="middle" fill="#F9F1FF" font-family="Arial,sans-serif" font-size="17" font-weight="700">SIMON</text>
+    <text x="579" y="260" text-anchor="middle" fill="#B5A5C9" font-family="Arial,sans-serif" font-size="11" letter-spacing="2">START</text>
+  </g>
+  <circle cx="494" cy="157" r="6" fill="#FFE5E8" fill-opacity=".85"/>
+  <circle cx="664" cy="157" r="6" fill="#FFF0C2" fill-opacity=".85"/>
+  <circle cx="494" cy="327" r="6" fill="#D3FFEC" fill-opacity=".85"/>
+  <circle cx="664" cy="327" r="6" fill="#DCEBFF" fill-opacity=".85"/>
+  <text x="54" y="430" fill="#A993BB" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">A CLASSIC MEMORY GAME REIMAGINED</text>
+</svg>

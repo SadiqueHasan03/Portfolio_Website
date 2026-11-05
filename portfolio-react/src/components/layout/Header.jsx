@@ -1,7 +1,6 @@
 import { useState, useEffect } from 'react'
 import { Link, useLocation } from 'react-router-dom'
 import useAppStore from '../../stores/useAppStore'
-import { navigationItems } from '../../data/portfolioData'
 import Navigation from './Navigation'
 import ThemeToggle from '../ui/ThemeToggle'
 import { debounce } from '../../utils/helpers'
@@ -17,24 +16,25 @@ function Header() {
       setScrolled(window.scrollY > 50)
     }, 10)
 
+    handleScroll()
     window.addEventListener('scroll', handleScroll)
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
-    <header className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+    <header className={`fixed left-0 right-0 top-0 z-50 border-b transition-all duration-300 ${
       scrolled || !isHomePage
-        ? 'bg-white/95 dark:bg-gray-900/95 backdrop-blur-md shadow-lg'
-        : 'bg-transparent'
+        ? 'border-gray-200/80 bg-white/90 shadow-sm backdrop-blur-xl dark:border-gray-700/70 dark:bg-gray-950/85'
+        : 'border-transparent bg-transparent'
     }`}>
       <nav className="container-custom">
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link 
             to="/" 
-            className="text-2xl font-bold text-gradient hover:scale-105 transition-transform duration-300"
+            className="text-xl font-bold tracking-tight text-gray-950 transition-transform duration-300 hover:scale-[1.03] dark:text-white md:text-2xl"
           >
-            Sadique
+            Sadique<span className="text-emerald-500">.</span>
           </Link>
 
           {/* Desktop Navigation */}
@@ -49,23 +49,29 @@ function Header() {
             {/* Mobile menu button */}
             <button
               onClick={toggleMobileMenu}
-              className="md:hidden p-2 rounded-lg text-gray-700 dark:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800 transition-colors duration-300"
+              className="md:hidden flex h-11 w-11 items-center justify-center rounded-full border border-gray-200/80 text-gray-700 transition-colors duration-300 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500 dark:border-gray-700/80 dark:text-gray-300 dark:hover:bg-gray-800"
               aria-label="Toggle mobile menu"
+              aria-expanded={mobileMenuOpen}
+              aria-controls="mobile-navigation"
             >
               <i className={`uil text-xl ${
                 mobileMenuOpen ? 'uil-times' : 'uil-apps'
-              }`}></i>
+              }`} aria-hidden="true"></i>
             </button>
           </div>
         </div>
 
         {/* Mobile Navigation */}
-        <div className={`md:hidden transition-all duration-300 overflow-hidden ${
+        <div
+          id="mobile-navigation"
+          inert={!mobileMenuOpen}
+          aria-hidden={!mobileMenuOpen}
+          className={`md:hidden overflow-hidden transition-[max-height,opacity] duration-300 ${
           mobileMenuOpen
-            ? 'max-h-96 opacity-100 pb-6'
+            ? 'max-h-80 opacity-100 pb-4'
             : 'max-h-0 opacity-0'
         }`}>
-          <div className="pt-4 border-t border-gray-200 dark:border-gray-700">
+          <div className="rounded-2xl border border-gray-200/80 bg-gray-50/90 p-3 shadow-sm dark:border-gray-700/80 dark:bg-gray-900/90">
             <Navigation mobile />
           </div>
         </div>

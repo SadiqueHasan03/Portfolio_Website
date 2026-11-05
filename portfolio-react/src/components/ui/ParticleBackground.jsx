@@ -16,7 +16,11 @@ function ParticleBackground({ particleCount = 50, className = '' }) {
   }, [particleCount])
 
   return (
-    <div className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}>
+    <div
+      className={`absolute inset-0 overflow-hidden pointer-events-none ${className}`}
+      aria-hidden="true"
+      role="presentation"
+    >
       {particles.map((particle) => {
         const mouseInfluence = {
           x: (mousePosition.x / window.innerWidth - 0.5) * 20,
@@ -42,25 +46,6 @@ function ParticleBackground({ particleCount = 50, className = '' }) {
           </div>
         )
       })}
-      
-      {/* CSS Animation Styles */}
-      <style jsx>{`
-        @keyframes float {
-          0%, 100% {
-            transform: translateY(0px) rotate(0deg);
-          }
-          33% {
-            transform: translateY(-20px) rotate(120deg);
-          }
-          66% {
-            transform: translateY(10px) rotate(240deg);
-          }
-        }
-        
-        .animate-float {
-          animation: float 6s ease-in-out infinite;
-        }
-      `}</style>
     </div>
   )
 }

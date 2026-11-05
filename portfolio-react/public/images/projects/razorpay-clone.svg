@@ -1,0 +1,46 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="46" y1="27" x2="746" y2="483" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#101A3A"/>
+      <stop offset="1" stop-color="#24245B"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="509" y1="122" x2="695" y2="367" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#53D8C8"/>
+      <stop offset="1" stop-color="#6478FF"/>
+    </linearGradient>
+    <filter id="glow" x="431" y="52" width="339" height="390" color-interpolation-filters="sRGB" filterUnits="userSpaceOnUse">
+      <feGaussianBlur stdDeviation="30"/>
+    </filter>
+  </defs>
+  <rect width="800" height="500" rx="28" fill="url(#bg)"/>
+  <circle cx="602" cy="247" r="118" fill="#5865FF" fill-opacity=".52" filter="url(#glow)"/>
+  <path d="M0 400C142 344 213 464 358 411C497 361 568 442 800 362V500H0V400Z" fill="#10182F" fill-opacity=".58"/>
+  <text x="54" y="83" fill="#92A5FF" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="3">PAYMENT SYSTEMS</text>
+  <text x="50" y="145" fill="#F7F8FF" font-family="Arial,sans-serif" font-size="43" font-weight="700">Razorpay Clone</text>
+  <text x="54" y="183" fill="#BBC4E5" font-family="Arial,sans-serif" font-size="18">Distributed payment processing</text>
+  <rect x="54" y="218" width="131" height="34" rx="17" fill="#25345D"/>
+  <circle cx="73" cy="235" r="5" fill="#55D9C1"/>
+  <text x="87" y="241" fill="#E1E9FF" font-family="Arial,sans-serif" font-size="14">7 microservices</text>
+  <g stroke="#7285E8" stroke-opacity=".72" stroke-width="2">
+    <path d="M521 181 595 136M521 181l74 90M595 136l79 48M595 271l79-87M595 136v135M521 181l74 90"/>
+  </g>
+  <g fill="#1C2850" stroke="#7186FF" stroke-width="2">
+    <rect x="466" y="153" width="111" height="56" rx="14"/>
+    <rect x="552" y="107" width="111" height="56" rx="14"/>
+    <rect x="552" y="243" width="111" height="56" rx="14"/>
+    <rect x="637" y="155" width="111" height="56" rx="14"/>
+  </g>
+  <g fill="#72E0D0">
+    <circle cx="486" cy="181" r="5"/><circle cx="572" cy="135" r="5"/>
+    <circle cx="572" cy="271" r="5"/><circle cx="657" cy="183" r="5"/>
+  </g>
+  <g fill="#E5E9FF" font-family="Arial,sans-serif" font-size="12" font-weight="700">
+    <text x="499" y="185">API GATEWAY</text>
+    <text x="585" y="139">PAYMENTS</text>
+    <text x="585" y="275">LEDGER</text>
+    <text x="670" y="187">EVENTS</text>
+  </g>
+  <circle cx="600" cy="205" r="28" fill="url(#accent)" stroke="#D3FFF5" stroke-width="3"/>
+  <path d="M611 187h-20a5 5 0 0 0 0 10h17a5 5 0 0 1 0 10h-20m11-25v5m0 20v5" stroke="#10203F" stroke-width="3" stroke-linecap="round"/>
+  <text x="54" y="432" fill="#8999C7" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">KAFKA  ·  REDIS  ·  KUBERNETES</text>
+</svg>

@@ -1,118 +1,130 @@
 import { useState } from 'react'
 import { personalInfo } from '../../data/portfolioData'
-import Card from '../ui/Card'
 import Button from '../ui/Button'
 import ImageWithFallback from '../ui/ImageWithFallback'
 import AnimatedSection from '../ui/AnimatedSection'
-// CV file path - referencing public assets directly
-const CV_PATH = '/assets/documents/coming-soon.docx'
+
+const CV_PATH = '/assets/documents/Sadique_Hasan_CV.pdf'
+
+const highlights = [
+  { value: '200+', label: 'DSA problems', icon: 'uil-brackets-curly' },
+  { value: 'Java', label: 'Core focus', icon: 'uil-server-network' },
+  { value: '3+', label: 'major projects', icon: 'uil-apps' }
+]
+
+const focusAreas = ['Java', 'Spring Boot', 'REST APIs', 'SQL', 'React']
 
 function AboutSection() {
   const [isDownloading, setIsDownloading] = useState(false)
-  
+
   const handleDownloadCV = async () => {
     setIsDownloading(true)
+
     try {
-      // Verify file accessibility
-      const response = await fetch(CV_PATH, { method: 'HEAD' })
-      if (!response.ok) {
+      const response = await fetch(CV_PATH, { method: 'HEAD', cache: 'no-store' })
+      if (!response.ok && response.status !== 405) {
         throw new Error(`File not accessible: ${response.status}`)
       }
-      
-      // Create download link with enhanced attributes
+
       const link = document.createElement('a')
       link.href = CV_PATH
-      link.download = 'Coming soon.docx' // Display name with space for user
+      link.download = 'Sadique_Hasan_CV.pdf'
       link.setAttribute('target', '_blank')
       link.setAttribute('rel', 'noopener noreferrer')
-      
-      // Trigger download
+
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
-      
-      console.log('CV download initiated successfully')
     } catch (error) {
       console.error('CV download failed:', error)
-      
-      // User-friendly error message
-      const errorMessage = error.message.includes('fetch') 
-        ? 'Network error: Please check your connection and try again.'
-        : 'Sorry, the CV file is temporarily unavailable. Please try again later.'
-      
-      alert(errorMessage)
+
+      window.open(CV_PATH, '_blank', 'noopener,noreferrer')
+      alert('The CV is temporarily unavailable to download directly, so it was opened in a new tab instead.')
     } finally {
       setIsDownloading(false)
     }
   }
+
   return (
-    <section id="about" className="section-padding">
+    <section id="about" className="section-padding about-section" aria-labelledby="about-heading">
       <div className="container-custom">
-        <AnimatedSection animation="fadeUp" className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            About Me
+        <AnimatedSection animation="fadeUp" className="about-section-heading">
+          <p className="about-eyebrow"><span /> A little about me</p>
+          <h2 id="about-heading">
+            Engineering thoughtful solutions, <span>one problem at a time.</span>
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            My introduction
-          </p>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-          {/* Image */}
-          <AnimatedSection animation="fadeLeft" delay={200}>
-            <div className="flex justify-center">
-              <div className="relative group">
-                <div className="w-80 h-96 rounded-2xl overflow-hidden group-hover:scale-105 transition-transform duration-500 shadow-2xl">
-                  <ImageWithFallback
-                    src={personalInfo.images?.about?.src}
-                    alt={personalInfo.images?.about?.alt || `${personalInfo.name} - About Picture`}
-                    className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-700"
-                    fallback="/images/placeholders/user-placeholder.svg"
-                  />
-                </div>
-                
-                {/* Decorative elements */}
-                <div className="absolute -top-4 -right-4 w-16 h-16 bg-primary-200 dark:bg-primary-800 rounded-full opacity-50 animate-pulse" />
-                <div className="absolute -bottom-4 -left-4 w-12 h-12 bg-secondary-200 dark:bg-secondary-800 rounded-full opacity-50 animate-pulse" style={{ animationDelay: '1s' }} />
+        <div className="about-layout">
+          <AnimatedSection animation="fadeLeft" className="about-visual-column">
+            <div className="about-photo-wrap">
+              <div className="about-photo-accent" aria-hidden="true" />
+              <div className="about-photo-frame">
+                <ImageWithFallback
+                  src={personalInfo.images?.about?.src}
+                  alt={personalInfo.images?.about?.alt || `${personalInfo.name} - About Picture`}
+                  className="about-photo"
+                  fallback="/images/placeholders/user-placeholder.svg"
+                />
               </div>
+              <div className="about-photo-caption">
+                <span className="about-photo-caption-icon">
+                  <i className="uil uil-map-marker" aria-hidden="true"></i>
+                </span>
+                <span>
+                  <strong>{personalInfo.location}</strong>
+                  <small>Curious by nature. Engineer by craft.</small>
+                </span>
+              </div>
+              <span className="about-photo-index" aria-hidden="true">01 / ABOUT</span>
             </div>
           </AnimatedSection>
 
-          {/* Content */}
-          <AnimatedSection animation="fadeRight" delay={400}>
-            <div>
-              <Card className="mb-8 hover:shadow-2xl transition-shadow duration-500">
-                <div className="space-y-4">
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    Hi! I'm Sadique Hasan, a final-year Bachelor of Technology (B.Tech) graduate in Computer Science, Class of 2025, with a strong academic background and a keen interest in backend development, particularly with Java technologies. My technical expertise spans Java (Core & Advanced), SQL, and JavaScript, and I am actively strengthening my skills in Spring Boot.
-                  </p>
-                  
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed">
-                    I have demonstrated strong analytical and problem-solving abilities, earning a 5-star rating in Java on HackerRank and solving 70+ algorithmic challenges on LeetCode. I am passionate about building scalable backend solutions, applying theoretical knowledge to practical projects, and writing clean, maintainable code aligned with industry best practices.
-                  </p>
-                </div>
-              </Card>
+          <AnimatedSection animation="fadeRight" delay={150} className="about-copy-column">
+            <div className="about-copy">
+              <p>
+                I&apos;m Sadique Hasan, a Software Engineer focused on building backend systems and full-stack products that are scalable, maintainable, and business-ready.
+              </p>
+              <p>
+                My experience spans Java, Spring Boot, SQL, React, and problem solving with a strong emphasis on clean architecture, efficient APIs, and real-world impact. I bring together technical depth and product thinking to solve problems that matter.
+              </p>
+            </div>
 
-              <AnimatedSection animation="fadeUp" delay={600}>
-                <Button 
-                  variant="outline" 
-                  className="group hover:scale-105 transition-transform duration-300"
-                  onClick={handleDownloadCV}
-                  disabled={isDownloading}
-                >
-                  {isDownloading ? (
-                    <>
-                      Downloading... 
-                      <i className="uil uil-spinner ml-2 animate-spin"></i>
-                    </>
-                  ) : (
-                    <>
-                      Download CV 
-                      <i className="uil uil-download-alt ml-2 group-hover:animate-bounce"></i>
-                    </>
-                  )}
-                </Button>
-              </AnimatedSection>
+            <div className="about-highlights" aria-label="Career highlights">
+              {highlights.map((highlight) => (
+                <div className="about-highlight" key={highlight.label}>
+                  <span className="about-highlight-icon">
+                    <i className={`uil ${highlight.icon}`} aria-hidden="true"></i>
+                  </span>
+                  <span>
+                    <strong>{highlight.value}</strong>
+                    <small>{highlight.label}</small>
+                  </span>
+                </div>
+              ))}
+            </div>
+
+            <div className="about-focus">
+              <span className="about-focus-label">What I work with</span>
+              <ul>
+                {focusAreas.map((area) => (
+                  <li key={area}>{area}</li>
+                ))}
+              </ul>
+            </div>
+
+            <div className="about-actions">
+              <Button
+                onClick={handleDownloadCV}
+                disabled={isDownloading}
+                className="about-download-button"
+              >
+                {isDownloading ? 'Preparing CV...' : 'Download CV'}
+                <i className={`uil ${isDownloading ? 'uil-spinner animate-spin' : 'uil-download-alt'} ml-2`} aria-hidden="true"></i>
+              </Button>
+              <a className="about-email-link" href={`mailto:${personalInfo.email}`}>
+                Get in touch <i className="uil uil-arrow-up-right" aria-hidden="true"></i>
+              </a>
             </div>
           </AnimatedSection>
         </div>
@@ -121,4 +133,4 @@ function AboutSection() {
   )
 }
 
-export default AboutSection;
+export default AboutSection

@@ -1,62 +1,61 @@
-import { servicesData } from '../../data/portfolioData'
-import Card from '../ui/Card'
+import { personalInfo, servicesData } from '../../data/portfolioData'
 import AnimatedSection from '../ui/AnimatedSection'
 
 function ServicesSection() {
   return (
-    <section id="services" className="section-padding bg-gray-50 dark:bg-gray-900/50">
+    <section id="services" className="section-padding services-section" aria-labelledby="services-heading">
       <div className="container-custom">
-        <AnimatedSection animation="fadeUp" className="text-center mb-16">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">
-            Services
+        <AnimatedSection animation="fadeUp" className="services-heading">
+          <p className="services-eyebrow"><span /> How I can contribute</p>
+          <h2 id="services-heading">
+            Backend engineering, <span>grounded in real projects.</span>
           </h2>
-          <p className="text-gray-600 dark:text-gray-400">
-            What I offer
+          <p className="services-intro">
+            Areas I&apos;ve worked with through backend projects and software testing experience.
           </p>
         </AnimatedSection>
 
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="services-grid">
           {servicesData.map((service, index) => (
-            <AnimatedSection 
+            <AnimatedSection
               key={service.id}
-              animation="fadeUp" 
-              delay={index * 200}
+              animation="fadeUp"
+              delay={index * 100}
+              className="services-card-wrap"
             >
-              <Card className="text-center h-full hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 group">
-                <div className="mb-6">
-                  <div className="w-16 h-16 bg-primary-100 dark:bg-primary-900/30 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:bg-primary-200 dark:group-hover:bg-primary-800/50 transition-colors duration-300">
-                    <i className={`${service.icon} text-2xl text-primary-600 dark:text-primary-400`}></i>
-                  </div>
-                  <h3 className="text-xl font-semibold mb-3 text-gray-900 dark:text-white">
-                    {service.title}
-                  </h3>
-                  <p className="text-gray-600 dark:text-gray-400 leading-relaxed mb-6">
-                    {service.description}
-                  </p>
+              <article className="service-card">
+                <div className="service-card-topline">
+                  <span className="service-icon">
+                    <i className={`uil ${service.icon}`} aria-hidden="true"></i>
+                  </span>
+                  <span className="service-number">{String(index + 1).padStart(2, '0')}</span>
                 </div>
 
-                <div className="space-y-3">
-                  {service.features.map((feature, featureIndex) => (
-                    <div 
-                      key={featureIndex}
-                      className="flex items-center text-gray-700 dark:text-gray-300"
-                    >
-                      <i className="uil uil-check-circle text-primary-500 mr-3 text-lg"></i>
-                      <span className="text-sm">{feature}</span>
-                    </div>
-                  ))}
-                </div>
+                <h3>{service.title}</h3>
+                <p className="service-description">{service.description}</p>
 
-                <div className="mt-6 pt-6 border-t border-gray-200 dark:border-gray-700">
-                  <button className="text-primary-600 dark:text-primary-400 hover:text-primary-700 dark:hover:text-primary-300 font-medium text-sm group-hover:translate-x-1 transition-transform duration-300 inline-flex items-center">
-                    Learn More
-                    <i className="uil uil-arrow-right ml-2"></i>
-                  </button>
+                <div className="service-scope">
+                  <span className="service-scope-label">Tools &amp; focus</span>
+                  <ul>
+                    {service.features.map((feature) => (
+                      <li key={feature}>
+                        <i className="uil uil-check" aria-hidden="true"></i>
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
                 </div>
-              </Card>
+              </article>
             </AnimatedSection>
           ))}
         </div>
+
+        <AnimatedSection animation="fadeUp" delay={300} className="services-cta">
+          <p>Have a backend project in mind?</p>
+          <a href={`mailto:${personalInfo.email}`}>
+            Let&apos;s talk <i className="uil uil-arrow-up-right" aria-hidden="true"></i>
+          </a>
+        </AnimatedSection>
       </div>
     </section>
   )

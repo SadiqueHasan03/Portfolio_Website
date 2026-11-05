@@ -10,14 +10,15 @@ export const PersonalInfoPropTypes = PropTypes.shape({
   socialLinks: PropTypes.shape({
     linkedin: PropTypes.string,
     github: PropTypes.string,
-    LeetCode: PropTypes.string
+    leetcode: PropTypes.string
   }).isRequired
 })
 
 // PropTypes for skills
 export const SkillPropTypes = PropTypes.shape({
   name: PropTypes.string.isRequired,
-  percentage: PropTypes.number.isRequired
+  icon: PropTypes.string,
+  fallbackIcon: PropTypes.string.isRequired
 })
 
 export const SkillCategoryPropTypes = PropTypes.shape({

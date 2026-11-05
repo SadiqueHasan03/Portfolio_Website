@@ -73,7 +73,7 @@ export const testPersonalInfo = {
   socialLinks: {
     linkedin: 'https://linkedin.com/test',
     github: 'https://github.com/test',
-    LeetCode: 'https://leetcode.com/test'
+    leetcode: 'https://leetcode.com/test'
   }
 }
 
@@ -82,8 +82,8 @@ export const testSkillsData = {
     title: 'Frontend Developer',
     icon: 'uil-brackets-curly',
     skills: [
-      { name: 'React', percentage: 90 },
-      { name: 'JavaScript', percentage: 85 }
+      { name: 'React', fallbackIcon: 'uil-react' },
+      { name: 'JavaScript', fallbackIcon: 'uil-brackets-curly' }
     ]
   }
 }

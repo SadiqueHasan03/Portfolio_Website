@@ -58,7 +58,7 @@ const useAppStore = create(
   })),
   
   // Qualification tabs state
-  activeQualificationTab: 'education',
+  activeQualificationTab: 'experience',
   setActiveQualificationTab: (tab) => set({ activeQualificationTab: tab }),
   
 

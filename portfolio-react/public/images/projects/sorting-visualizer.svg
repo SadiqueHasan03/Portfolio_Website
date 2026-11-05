@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="49" y1="18" x2="735" y2="486" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#10172D"/>
+      <stop offset="1" stop-color="#28204B"/>
+    </linearGradient>
+    <linearGradient id="bar" x1="280" y1="165" x2="655" y2="378" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#58E3D0"/>
+      <stop offset="1" stop-color="#8B72FF"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" rx="28" fill="url(#bg)"/>
+  <circle cx="673" cy="70" r="136" fill="#786AFF" fill-opacity=".12"/>
+  <circle cx="102" cy="423" r="126" fill="#38D6C1" fill-opacity=".08"/>
+  <text x="54" y="83" fill="#8B83FF" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="3">ALGORITHMS IN MOTION</text>
+  <text x="50" y="147" fill="#F6F4FF" font-family="Arial,sans-serif" font-size="46" font-weight="700">Sorting Visualizer</text>
+  <text x="54" y="185" fill="#B9B8D7" font-family="Arial,sans-serif" font-size="18">See the logic behind every sort.</text>
+  <rect x="55" y="218" width="164" height="37" rx="18" fill="#2B2C55"/>
+  <circle cx="76" cy="237" r="6" fill="#5BE0CF"/>
+  <text x="91" y="242" fill="#E6E4FF" font-family="Arial,sans-serif" font-size="14">MERGE SORT</text>
+  <rect x="54" y="287" width="691" height="151" rx="20" fill="#171D38" stroke="#37365B"/>
+  <path d="M81 402h636" stroke="#747291" stroke-opacity=".48" stroke-width="2"/>
+  <g fill="url(#bar)">
+    <rect x="94" y="352" width="29" height="50" rx="8"/><rect x="137" y="320" width="29" height="82" rx="8"/>
+    <rect x="180" y="371" width="29" height="31" rx="8"/><rect x="223" y="302" width="29" height="100" rx="8"/>
+    <rect x="266" y="341" width="29" height="61" rx="8"/><rect x="309" y="282" width="29" height="120" rx="8"/>
+    <rect x="352" y="332" width="29" height="70" rx="8"/><rect x="395" y="310" width="29" height="92" rx="8"/>
+    <rect x="438" y="269" width="29" height="133" rx="8"/><rect x="481" y="357" width="29" height="45" rx="8"/>
+    <rect x="524" y="294" width="29" height="108" rx="8"/><rect x="567" y="326" width="29" height="76" rx="8"/>
+    <rect x="610" y="278" width="29" height="124" rx="8"/><rect x="653" y="341" width="29" height="61" rx="8"/>
+  </g>
+  <g fill="#8280A9" font-family="Arial,sans-serif" font-size="12">
+    <text x="91" y="423">01</text><text x="220" y="423">04</text><text x="349" y="423">07</text>
+    <text x="478" y="423">10</text><text x="607" y="423">13</text>
+  </g>
+  <text x="54" y="472" fill="#77799E" font-family="Arial,sans-serif" font-size="13" letter-spacing="2">COMPARE · STEP THROUGH · LEARN</text>
+</svg>

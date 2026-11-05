@@ -1,147 +1,129 @@
+import { Link } from 'react-router-dom'
 import { personalInfo } from '../../data/portfolioData'
 import { useTypewriter } from '../../hooks/useAnimations'
 import Button from '../ui/Button'
 import ProfileImage from '../ui/ProfileImage'
-import ParticleBackground from '../ui/ParticleBackground'
 import AnimatedSection from '../ui/AnimatedSection'
 import { smoothScrollTo } from '../../utils/helpers'
 
 function HeroSection() {
   const { displayText: nameText } = useTypewriter(personalInfo.name, 150, 500)
-  const { displayText: titleText } = useTypewriter(personalInfo.title, 100, 2000)
-
-  const handleScrollToAbout = () => {
-    smoothScrollTo('about', 80)
-  }
 
   const handleContactClick = () => {
     smoothScrollTo('contact', 80)
   }
 
   return (
-    <section id="home" className="relative min-h-screen flex items-center pt-16 md:pt-20 overflow-hidden">
-      {/* Particle Background */}
-      <ParticleBackground className="opacity-30" />
-      
-      {/* Gradient Background */}
-      <div className="absolute inset-0 bg-gradient-to-br from-primary-50 via-white to-secondary-50 dark:from-gray-900 dark:via-gray-800 dark:to-gray-900" />
-      
-      <div className="container-custom relative z-10">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-12 items-center">
-          {/* Content */}
-          <AnimatedSection className="text-center lg:text-left order-2 lg:order-1" animation="fadeLeft">
-            {/* Social Links */}
-            <div className="flex justify-center lg:justify-start space-x-4 mb-8">
-              {Object.entries(personalInfo.socialLinks).map(([platform, url], index) => {
-                const icons = {
-                  linkedin: 'uil-linkedin-alt',
-                  github: 'uil-github-alt',
-                  LeetCode: 'uil-code-branch'
-                }
+    <section id="home" className="hero-section relative flex min-h-screen items-center overflow-hidden pt-20">
+      <div className="hero-grid-pattern absolute inset-0" aria-hidden="true" />
+      <div className="hero-orb hero-orb-one" aria-hidden="true" />
+      <div className="hero-orb hero-orb-two" aria-hidden="true" />
 
-                const renderIcon = (platform) => {
-                  if (platform === 'LeetCode') {
-                    return (
-                      <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
-                        <path d="M22,14.355c0-0.742-0.564-1.346-1.26-1.346H10.676c-0.696,0-1.26,0.604-1.26,1.346s0.563,1.346,1.26,1.346H20.74C21.436,15.702,22,15.098,22,14.355z"></path>
-                        <path d="M3.482,18.187l4.313,4.361C8.768,23.527,10.113,24,11.598,24c1.485,0,2.83-0.512,3.805-1.494l2.588-2.637c0.51-0.514,0.492-1.365-0.039-1.9c-0.531-0.535-1.375-0.553-1.884-0.039l-2.676,2.607c-0.462,0.467-1.102,0.662-1.809,0.662s-1.346-0.195-1.81-0.662l-4.298-4.363c-0.463-0.467-0.696-1.15-0.696-1.863c0-0.713,0.233-1.357,0.696-1.824l4.285-4.38c0.463-0.467,1.116-0.645,1.822-0.645s1.346,0.195,1.809,0.662l2.676,2.606c0.51,0.515,1.354,0.497,1.885-0.038c0.531-0.536,0.549-1.387,0.039-1.901l-2.588-2.636c-0.649-0.646-1.471-1.116-2.392-1.33l-0.034-0.007l2.447-2.503c0.512-0.514,0.494-1.366-0.037-1.901c-0.531-0.535-1.376-0.552-1.887-0.038L3.482,10.476C2.509,11.458,2,12.813,2,14.311C2,15.809,2.509,17.207,3.482,18.187z"></path>
-                      </svg>
-                    )
+      <div className="container-custom relative z-10 py-16 md:py-20">
+        <div className="grid grid-cols-1 items-center gap-14 lg:grid-cols-[1.1fr_0.9fr] lg:gap-16">
+          <AnimatedSection className="order-2 text-center lg:order-1 lg:text-left" animation="fadeLeft">
+            <p className="hero-eyebrow mx-auto mb-6 lg:mx-0">
+              <span className="hero-status-dot" aria-hidden="true" />
+              Open to software engineering roles
+            </p>
+
+            <h1 className="hero-title mb-5">
+              Hi, I&apos;m{' '}
+              <span className="hero-name text-gradient">
+                {nameText}
+                <span className="hero-caret" aria-hidden="true">|</span>
+              </span>
+            </h1>
+
+            <p className="hero-role mb-5">
+              Software Engineer <span aria-hidden="true">·</span> Java, Spring Boot &amp; full-stack
+            </p>
+
+            <p className="mx-auto mb-9 max-w-xl text-base leading-8 text-gray-600 dark:text-gray-300 lg:mx-0 md:text-lg">
+              {personalInfo.description}
+            </p>
+
+            <div className="mb-9 flex flex-col justify-center gap-3 sm:flex-row lg:justify-start">
+              <Button onClick={handleContactClick} size="lg" className="hero-primary-button">
+                Let&apos;s talk
+                <i className="uil uil-arrow-up-right ml-2" aria-hidden="true"></i>
+              </Button>
+              <Link to="/projects" className="hero-secondary-button">
+                Explore my work
+                <i className="uil uil-arrow-right ml-2" aria-hidden="true"></i>
+              </Link>
+            </div>
+
+            <div className="flex flex-col items-center gap-4 lg:items-start">
+              <span className="text-xs font-semibold uppercase tracking-[0.18em] text-gray-500 dark:text-gray-400">
+                Find me online
+              </span>
+              <div className="flex items-center gap-3">
+                {Object.entries(personalInfo.socialLinks).map(([platform, url]) => {
+                  const labels = {
+                    linkedin: 'LinkedIn',
+                    github: 'GitHub',
+                    leetcode: 'LeetCode'
                   }
-                  return <i className={`uil ${icons[platform]} text-lg`}></i>
-                }
-                
-                return (
-                  <AnimatedSection
-                    key={platform}
-                    animation="scale"
-                    delay={index * 100}
-                    className="group"
-                  >
+                  const icons = {
+                    linkedin: 'uil-linkedin-alt',
+                    github: 'uil-github-alt',
+                    leetcode: 'uil-code-branch'
+                  }
+
+                  return (
                     <a
+                      key={platform}
                       href={url}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="w-10 h-10 bg-white dark:bg-gray-800 shadow-lg rounded-lg flex items-center justify-center text-primary-500 hover:text-white hover:bg-primary-500 transition-all duration-300 hover:scale-110 hover:shadow-xl"
-                      aria-label={platform}
+                      className="hero-social-link"
+                      aria-label={labels[platform] || platform}
                     >
-                      {renderIcon(platform)}
+                      {platform === 'leetcode' ? (
+                        <svg className="h-4 w-4" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true">
+                          <path d="M22,14.355c0-.742-.564-1.346-1.26-1.346H10.676c-.696,0-1.26.604-1.26,1.346s.563,1.346,1.26,1.346H20.74c.696.001,1.26-.603,1.26-1.346z"></path>
+                          <path d="M3.482,18.187l4.313,4.361C8.768,23.527,10.113,24,11.598,24c1.485,0,2.83-.512,3.805-1.494l2.588-2.637c.51-.514.492-1.365-.039-1.9-.531-.535-1.375-.553-1.884-.039l-2.676,2.607c-.462.467-1.102.662-1.809.662s-1.346-.195-1.81-.662l-4.298-4.363c-.463-.467-.696-1.15-.696-1.863s.233-1.357.696-1.824l4.285-4.38c.463-.467,1.116-.645,1.822-.645s1.346.195,1.809.662l2.676,2.606c.51.515,1.354.497,1.885-.038.531-.536.549-1.387.039-1.901l-2.588-2.636c-.649-.646-1.471-1.116-2.392-1.33l-.034-.007 2.447-2.503c.512-.514.494-1.366-.037-1.901-.531-.535-1.376-.552-1.887-.038L3.482,10.476C2.509,11.458,2,12.813,2,14.311c0,1.498.509,2.896,1.482,3.876z"></path>
+                        </svg>
+                      ) : (
+                        <i className={`uil ${icons[platform]} text-lg`} aria-hidden="true"></i>
+                      )}
                     </a>
-                  </AnimatedSection>
-                )
-              })}
-            </div>
-
-            <div className="mb-8">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold mb-4">
-                Hi, I'm{' '}
-                <span className="text-gradient min-h-[1.2em] inline-block">
-                  {nameText}
-                  <span className="animate-pulse">|</span>
-                </span>
-              </h1>
-              
-              <h3 className="text-xl md:text-2xl text-gray-600 dark:text-gray-400 mb-6 min-h-[2em]">
-                {titleText}
-                {titleText && <span className="animate-pulse">|</span>}
-              </h3>
-            </div>
-            
-            <AnimatedSection animation="fadeUp" delay={300}>
-              <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-lg mx-auto lg:mx-0 leading-relaxed">
-                {personalInfo.description}
-              </p>
-            </AnimatedSection>
-            
-            <AnimatedSection animation="fadeUp" delay={500}>
-              <Button 
-                onClick={handleContactClick} 
-                className="mb-8 hover:scale-105 transition-transform duration-300"
-              >
-                Contact Me <i className="uil uil-message ml-2"></i>
-              </Button>
-            </AnimatedSection>
-
-            {/* Scroll indicator */}
-            <AnimatedSection animation="fadeUp" delay={700}>
-              <div className="hidden lg:flex items-center space-x-2 text-gray-600 dark:text-gray-400">
-                <button 
-                  onClick={handleScrollToAbout}
-                  className="flex items-center space-x-2 hover:text-primary-500 transition-colors duration-300 group"
-                >
-                  <i className="uil uil-mouse-alt text-2xl group-hover:animate-bounce"></i>
-                  <span className="text-sm">Scroll down</span>
-                  <i className="uil uil-arrow-down group-hover:translate-y-1 transition-transform duration-300"></i>
-                </button>
+                  )
+                })}
               </div>
-            </AnimatedSection>
+            </div>
           </AnimatedSection>
 
-          {/* Profile Image */}
-          <AnimatedSection 
-            animation="fadeRight" 
+          <AnimatedSection
+            animation="fadeRight"
             delay={200}
-            className="order-1 lg:order-2 flex justify-center"
+            className="order-1 flex justify-center lg:order-2"
           >
-            <div className="relative">
-              <div className="relative group">
+            <div className="hero-portrait-wrap">
+              <div className="hero-portrait-backdrop" aria-hidden="true" />
+              <div className="hero-portrait-frame">
                 <ProfileImage
                   src={personalInfo.images?.profile?.src}
                   alt={personalInfo.images?.profile?.alt || `${personalInfo.name} - Profile Picture`}
                   size="2xl"
-                  className="animate-float shadow-2xl group-hover:scale-105 transition-transform duration-500 no-rotate"
-                  showBorder={true}
+                  shape="rounded"
+                  className="hero-portrait"
+                  showBorder={false}
                 />
-                
-                {/* Decorative rings */}
-                <div className="absolute inset-0 rounded-full border-4 border-primary-200 dark:border-primary-800 animate-pulse animate-border-glow" />
-                <div className="absolute inset-4 rounded-full border-2 border-secondary-200 dark:border-secondary-800 animate-pulse animate-border-pulse" style={{ animationDelay: '1s' }} />
               </div>
-              
-              {/* Floating elements */}
-              <div className="absolute -top-4 -right-4 w-8 h-8 bg-accent-400 rounded-full animate-bounce" style={{ animationDelay: '0.5s' }} />
-              <div className="absolute -bottom-6 -left-6 w-6 h-6 bg-secondary-400 rounded-full animate-bounce" style={{ animationDelay: '1.5s' }} />
-              <div className="absolute top-1/2 -left-8 w-4 h-4 bg-primary-400 rounded-full animate-bounce" style={{ animationDelay: '1s' }} />
+              <div className="hero-portrait-ring hero-portrait-ring-glow animate-border-glow" aria-hidden="true" />
+              <div className="hero-portrait-ring hero-portrait-ring-pulse animate-border-pulse" aria-hidden="true" />
+              <div className="hero-float-card">
+                <span className="hero-float-icon">
+                  <i className="uil uil-code-branch" aria-hidden="true"></i>
+                </span>
+                <span>
+                  <strong>Building for impact</strong>
+                  <small>Backend · APIs · Web</small>
+                </span>
+              </div>
+              <span className="hero-coordinate" aria-hidden="true">28°36&apos;N&nbsp; 77°13&apos;E</span>
             </div>
           </AnimatedSection>
         </div>
@@ -150,4 +132,4 @@ function HeroSection() {
   )
 }
 
-export default HeroSection;
+export default HeroSection

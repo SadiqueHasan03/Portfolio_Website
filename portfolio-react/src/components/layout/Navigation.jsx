@@ -10,17 +10,21 @@ function Navigation({ mobile = false }) {
   const navigate = useNavigate()
   const isHomePage = location.pathname === '/'
 
-  const handleNavClick = async (item) => {
+  const handleNavClick = async (item, event) => {
     if (mobile) {
       closeMobileMenu()
     }
 
-    if (isHomePage && item.href.startsWith('#')) {
-      // Enhanced smooth scroll for same page
+    if (item.href.startsWith('#')) {
+      if (!isHomePage) {
+        event?.preventDefault()
+      }
+
       const sectionId = item.href.substring(1)
       
       try {
-        const success = await navigateToSection(item.href, navigate, {
+        const targetUrl = isHomePage ? item.href : `/${item.href}`
+        const success = await navigateToSection(targetUrl, navigate, {
           offset: 80,
           delay: 100,
           fallbackToTop: sectionId === 'home'
@@ -50,25 +54,25 @@ function Navigation({ mobile = false }) {
   }
 
   const navItemClass = `
-    group flex items-center space-x-2 px-4 py-2 rounded-lg text-sm font-medium transition-all duration-300
+    group flex min-h-11 items-center gap-3 rounded-xl px-3 py-2 text-sm font-medium transition-colors duration-200 lg:px-3
     ${
       mobile
-        ? 'w-full justify-start hover:bg-gray-100 dark:hover:bg-gray-800'
+        ? 'w-full justify-start hover:bg-white dark:hover:bg-gray-800'
         : 'hover:bg-white/10'
     }
   `
 
-  const activeClass = 'text-primary-500 bg-primary-50 dark:bg-primary-900/20'
+  const activeClass = 'text-primary-600 bg-primary-50 dark:text-primary-400 dark:bg-primary-900/20'
   const inactiveClass = 'text-gray-700 dark:text-gray-300 hover:text-primary-500'
 
   return (
     <ul className={`
-      ${mobile ? 'flex flex-col space-y-2' : 'flex items-center space-x-1'}
+      ${mobile ? 'grid grid-cols-2 gap-2' : 'flex items-center space-x-1'}
     `}>
       {navigationItems.map((item) => {
         const linkContent = (
           <>
-            <i className={`${item.icon} text-lg`}></i>
+            <i className={`${item.icon} text-lg ${mobile ? 'text-primary-500' : ''}`} aria-hidden="true"></i>
             <span>{item.label}</span>
           </>
         )
@@ -94,8 +98,8 @@ function Navigation({ mobile = false }) {
         return (
           <li key={item.id}>
             <Link
-              to={item.href}
-              onClick={() => handleNavClick(item)}
+              to={item.href.startsWith('#') ? `/${item.href}` : item.href}
+              onClick={(event) => handleNavClick(item, event)}
               className={className}
             >
               {linkContent}

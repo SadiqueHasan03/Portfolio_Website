@@ -47,7 +47,7 @@ function ProjectCard({
     >
       <div className="bg-white dark:bg-gray-800 rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-500 overflow-hidden border border-gray-200 dark:border-gray-700 hover:border-primary-300 dark:hover:border-primary-600">
         {/* Project Image */}
-        <div className="relative h-48 md:h-64 overflow-hidden">
+        <div className="relative aspect-[16/10] overflow-hidden">
           <LazyImage
             src={image}
             alt={`${title} project screenshot`}
@@ -57,7 +57,7 @@ function ProjectCard({
           
           {/* Featured badge */}
           {featured && (
-            <div className="absolute top-4 left-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
+            <div className="absolute top-4 right-4 bg-gradient-to-r from-primary-500 to-secondary-500 text-white px-3 py-1 rounded-full text-sm font-semibold">
               <i className="uil uil-star mr-1"></i>
               Featured
             </div>
@@ -90,12 +90,12 @@ function ProjectCard({
         </div>
 
         {/* Project Content */}
-        <div className="p-6">
-          <h3 className="text-xl font-bold text-gray-900 dark:text-white mb-3 group-hover:text-primary-600 dark:group-hover:text-primary-400 transition-colors duration-300">
+        <div className="p-5 sm:p-6">
+          <h3 className="mb-2 text-lg font-bold text-gray-900 transition-colors duration-300 group-hover:text-primary-600 dark:text-white dark:group-hover:text-primary-400 sm:mb-3 sm:text-xl">
             {title}
           </h3>
           
-          <p className="text-gray-600 dark:text-gray-400 mb-4 line-clamp-3">
+          <p className="mb-4 text-sm leading-6 text-gray-600 dark:text-gray-400 line-clamp-3 sm:text-base sm:leading-normal">
             {description}
           </p>
 
@@ -114,7 +114,7 @@ function ProjectCard({
           )}
 
           {/* Action Buttons */}
-          <div className="flex space-x-3">
+          <div className="flex gap-3">
             {liveUrl && liveUrl !== '#' && (
               <Button
                 onClick={handleViewProject}

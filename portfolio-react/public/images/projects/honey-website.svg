@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="49" y1="29" x2="749" y2="471" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFF8E8"/>
+      <stop offset="1" stop-color="#F7DFAE"/>
+    </linearGradient>
+    <linearGradient id="honey" x1="555" y1="166" x2="663" y2="378" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FFD66B"/>
+      <stop offset="1" stop-color="#D97706"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" rx="28" fill="url(#bg)"/>
+  <circle cx="674" cy="95" r="128" fill="#F0B942" fill-opacity=".15"/>
+  <g stroke="#E4B64F" stroke-opacity=".32" stroke-width="3">
+    <path d="m93 102 25-14 25 14v29l-25 14-25-14v-29Zm50 29 25-14 25 14v29l-25 14-25-14v-29Zm-50 58 25-14 25 14v29l-25 14-25-14v-29Z"/>
+    <path d="m675 368 25-14 25 14v29l-25 14-25-14v-29Zm50 29 25-14 25 14v29l-25 14-25-14v-29Z"/>
+  </g>
+  <text x="54" y="83" fill="#A66A18" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="3">PURE · LOCAL · GOLDEN</text>
+  <text x="50" y="148" fill="#422A12" font-family="Arial,sans-serif" font-size="48" font-weight="700">Sweet by nature.</text>
+  <text x="54" y="187" fill="#76542E" font-family="Arial,sans-serif" font-size="18">A little goodness, straight from the hive.</text>
+  <rect x="54" y="222" width="151" height="42" rx="21" fill="#A95719"/>
+  <text x="79" y="249" fill="#FFF8E8" font-family="Arial,sans-serif" font-size="15" font-weight="700">EXPLORE HONEY</text>
+  <rect x="544" y="134" width="166" height="263" rx="28" fill="#8D4B20" fill-opacity=".1"/>
+  <path d="M577 183h100l-11 38v132c0 11-9 20-20 20h-38c-11 0-20-9-20-20V221l-11-38Z" fill="url(#honey)" stroke="#A95719" stroke-width="4"/>
+  <path d="M577 183h100l-6-22c-2-8-9-13-17-13h-54c-8 0-15 5-17 13l-6 22Z" fill="#684221"/>
+  <path d="M587 188h80" stroke="#FFE5A3" stroke-width="5" stroke-linecap="round"/>
+  <rect x="581" y="264" width="92" height="64" rx="10" fill="#FFF6DD" fill-opacity=".94"/>
+  <path d="M622 279c-7 11-13 18-13 25a13 13 0 0 0 26 0c0-7-6-14-13-25Z" fill="#E7A321"/>
+  <text x="627" y="321" fill="#7C4A18" font-family="Arial,sans-serif" font-size="10" font-weight="700" text-anchor="middle" letter-spacing="1">WILDFLOWER</text>
+  <path d="M566 405c37 15 119 15 156 0" stroke="#B77B2D" stroke-opacity=".4" stroke-width="3" stroke-linecap="round"/>
+  <g fill="#DA9A26"><circle cx="521" cy="193" r="4"/><circle cx="703" cy="225" r="5"/><circle cx="525" cy="349" r="3"/><circle cx="703" cy="121" r="4"/></g>
+  <text x="54" y="430" fill="#A77B46" font-family="Arial,sans-serif" font-size="14" letter-spacing="2">A RESPONSIVE HONEY SHOP EXPERIENCE</text>
+</svg>

@@ -43,18 +43,18 @@ function Projects() {
     <div className="min-h-screen section-padding">
       <div className="container-custom">
         {/* Header */}
-        <AnimatedSection animation="fadeUp" className="text-center mb-16">
-          <h1 className="text-4xl md:text-5xl font-bold mb-4 text-gradient">
+        <AnimatedSection animation="fadeUp" className="mb-10 text-center sm:mb-16">
+          <h1 className="mb-3 text-3xl font-bold text-gradient sm:mb-4 sm:text-4xl md:text-5xl">
             Projects Showcase
           </h1>
-          <p className="text-gray-600 dark:text-gray-400 mb-8 max-w-2xl mx-auto">
+          <p className="mx-auto mb-6 max-w-2xl text-sm leading-6 text-gray-600 dark:text-gray-400 sm:mb-8 sm:text-base sm:leading-normal">
             Explore my portfolio of web applications, games, and tools. Each project demonstrates different technologies and problem-solving approaches.
           </p>
         </AnimatedSection>
 
         {/* Filter Buttons */}
-        <AnimatedSection animation="fadeUp" delay={200} className="mb-12">
-          <div className="flex flex-wrap justify-center gap-4">
+        <AnimatedSection animation="fadeUp" delay={200} className="mb-8 sm:mb-12">
+          <div className="flex flex-wrap justify-center gap-2 sm:gap-4">
             {filterOptions.map((option) => (
               <Button
                 key={option.key}
@@ -63,7 +63,7 @@ function Projects() {
                   setVisibleCount(6)
                 }}
                 variant={filter === option.key ? 'primary' : 'outline'}
-                className="transition-all duration-300 hover:scale-105"
+                className="min-h-11 px-3 transition-all duration-300 sm:px-4 sm:hover:scale-105"
               >
                 <i className={`${option.icon} mr-2`}></i>
                 {option.label}
@@ -74,7 +74,7 @@ function Projects() {
 
         {/* Projects Count */}
         <AnimatedSection animation="fadeUp" delay={300}>
-          <div className="text-center mb-8">
+          <div className="mb-6 text-center sm:mb-8">
             <p className="text-gray-600 dark:text-gray-400">
               Showing {visibleProjects.length} of {filteredProjects.length} projects
               {filter !== 'all' && (
@@ -89,7 +89,7 @@ function Projects() {
         {/* Projects Grid */}
         {visibleProjects.length > 0 ? (
           <>
-            <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-8 mb-12">
+            <div className="mb-10 grid grid-cols-1 gap-5 sm:mb-12 sm:gap-8 md:grid-cols-2 xl:grid-cols-3">
               {visibleProjects.map((project, index) => (
                 <ProjectCard
                   key={project.id}

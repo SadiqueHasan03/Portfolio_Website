@@ -1,64 +1,83 @@
-import useAppStore from '../../stores/useAppStore'
+import { useState } from 'react'
 import { skillsData } from '../../data/portfolioData'
-import Card from '../ui/Card'
+import AnimatedSection from '../ui/AnimatedSection'
 
-function SkillsSection() {
-  const { openSkillSections, toggleSkillSection } = useAppStore()
+function SkillIcon({ skill }) {
+  const [iconUnavailable, setIconUnavailable] = useState(false)
+  const iconUrl = skill.icon
 
-  const isOpen = (section) => openSkillSections.includes(section)
+  if (!iconUrl || iconUnavailable) {
+    return <i className={`uil ${skill.fallbackIcon}`} aria-hidden="true"></i>
+  }
 
   return (
-    <section id="skills" className="section-padding bg-gray-50 dark:bg-gray-900">
+    <img
+      src={iconUrl}
+      alt=""
+      className="skill-chip-image"
+      onError={() => setIconUnavailable(true)}
+    />
+  )
+}
+
+function SkillsSection() {
+  const categories = Object.entries(skillsData)
+  const totalSkills = categories.reduce((total, [, category]) => total + category.skills.length, 0)
+
+  return (
+    <section id="skills" className="section-padding skills-section" aria-labelledby="skills-heading">
       <div className="container-custom">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Skills
-        </h2>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-16">
-          My technical level
-        </p>
+        <AnimatedSection animation="fadeUp" className="skills-heading">
+          <p className="skills-eyebrow"><span /> The toolkit</p>
+          <div className="skills-heading-row">
+            <div>
+              <h2 id="skills-heading">
+                Skills for building <span>reliable products.</span>
+              </h2>
+              <p className="skills-intro">
+                From backend services and data systems to the tools that help ship and support them.
+              </p>
+            </div>
+            <div className="skills-total" aria-label={`${totalSkills} skills across ${categories.length} categories`}>
+              <strong>{totalSkills}</strong>
+              <span>skills across<br />{categories.length} areas</span>
+            </div>
+          </div>
+        </AnimatedSection>
 
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {Object.entries(skillsData).map(([key, category]) => (
-            <Card key={key} className="transition-all duration-300 hover:shadow-xl">
-              <button
-                onClick={() => toggleSkillSection(key)}
-                className="w-full flex items-center justify-between p-2 hover:bg-gray-50 dark:hover:bg-gray-700 rounded-lg transition-colors duration-300"
-              >
-                <div className="flex items-center space-x-4">
-                  <i className={`uil ${category.icon} text-2xl text-primary-500`}></i>
-                  <h3 className="text-lg font-semibold">{category.title}</h3>
+        <div className="skills-grid">
+          {categories.map(([key, category], index) => (
+            <AnimatedSection
+              key={key}
+              animation="fadeUp"
+              delay={Math.min(index * 70, 280)}
+              className="skills-card-wrap"
+            >
+              <article className="skills-category-card" aria-labelledby={`skills-${key}`}>
+                <div className="skills-card-heading">
+                  <span className="skills-category-icon">
+                    <i className={`uil ${category.icon}`} aria-hidden="true"></i>
+                  </span>
+                  <span className="skills-category-count">
+                    {String(category.skills.length).padStart(2, '0')}
+                  </span>
                 </div>
-                <i className={`uil uil-angle-down text-xl transition-transform duration-300 ${
-                  isOpen(key) ? 'rotate-180' : ''
-                }`}></i>
-              </button>
 
-              <div className={`transition-all duration-300 overflow-hidden ${
-                isOpen(key) ? 'max-h-96 opacity-100 mt-6' : 'max-h-0 opacity-0'
-              }`}>
-                <div className="space-y-4">
-                  {category.skills.map((skill, index) => (
-                    <div key={index} className="skill-item">
-                      <div className="flex justify-between items-center mb-2">
-                        <span className="font-medium">{skill.name}</span>
-                        <span className="text-sm text-gray-600 dark:text-gray-400">
-                          {skill.percentage}%
-                        </span>
-                      </div>
-                      <div className="w-full bg-gray-200 dark:bg-gray-700 rounded-full h-2">
-                        <div 
-                          className="bg-gradient-to-r from-primary-500 to-secondary-500 h-2 rounded-full transition-all duration-1000 ease-out"
-                          style={{ 
-                            width: isOpen(key) ? `${skill.percentage}%` : '0%',
-                            transitionDelay: `${index * 200}ms`
-                          }}
-                        ></div>
-                      </div>
-                    </div>
+                <h3 id={`skills-${key}`}>{category.title}</h3>
+                <p className="skills-category-description">{category.description}</p>
+
+                <ul className="skills-chip-list">
+                  {category.skills.map((skill) => (
+                    <li key={skill.name} className="skill-chip">
+                      <span className="skill-chip-icon">
+                        <SkillIcon skill={skill} />
+                      </span>
+                      <span>{skill.name}</span>
+                    </li>
                   ))}
-                </div>
-              </div>
-            </Card>
+                </ul>
+              </article>
+            </AnimatedSection>
           ))}
         </div>
       </div>
@@ -66,4 +85,4 @@ function SkillsSection() {
   )
 }
 
-export default SkillsSection;
+export default SkillsSection

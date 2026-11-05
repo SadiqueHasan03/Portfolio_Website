@@ -23,49 +23,44 @@ function ThemeToggle() {
   const getIconAndLabel = () => {
     switch (theme) {
       case 'light':
-        return { icon: 'uil-moon', label: 'Switch to dark theme' }
+        return { icon: 'uil-sun', mode: 'Light', label: 'Switch to dark theme' }
       case 'dark':
-        return { icon: 'uil-sun', label: 'Switch to system theme' }
+        return { icon: 'uil-moon', mode: 'Dark', label: 'Switch to system theme' }
       case 'system':
         return { 
           icon: 'uil-laptop', 
+          mode: 'Auto',
           label: 'Switch to light theme' 
         }
       default:
-        return { icon: 'uil-moon', label: 'Switch to dark theme' }
+        return { icon: 'uil-sun', mode: 'Light', label: 'Switch to dark theme' }
     }
   }
   
-  const { icon, label } = getIconAndLabel()
+  const { icon, mode, label } = getIconAndLabel()
   
   return (
     <button
       onClick={handleToggle}
       disabled={isTransitioning}
       className={`
-        relative p-3 rounded-xl
-        bg-white dark:bg-gray-800
-        text-gray-900 dark:text-gray-100
-        border border-gray-200 dark:border-gray-700
-        hover:bg-gray-100 dark:hover:bg-gray-700
-        focus:outline-none focus:ring-2 focus:ring-blue-500 focus:ring-offset-2
+        inline-flex items-center gap-2 rounded-full border px-3 py-2
+        bg-gray-100/80 dark:bg-gray-800/80
+        text-gray-700 dark:text-gray-200
+        border-gray-200/80 dark:border-gray-700/80
+        hover:bg-gray-200 dark:hover:bg-gray-700
+        focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2
         dark:focus:ring-offset-gray-900
-        transition-all duration-300 hover:scale-105
-        ${isTransitioning ? 'animate-pulse' : ''}
+        transition-colors duration-200
+        disabled:cursor-wait
       `}
       aria-label={label}
+      title={`Current theme: ${theme === 'system' ? `Auto (${resolvedTheme})` : mode}`}
     >
-      <i className={`${icon} text-xl transition-transform duration-300 ${
+      <i className={`uil ${icon} text-lg text-emerald-600 dark:text-emerald-400 transition-transform duration-300 ${
         isTransitioning ? 'rotate-180' : ''
-      }`}></i>
-      
-      {/* Theme indicator */}
-      <span className="absolute -top-1 -right-1 w-3 h-3 rounded-full bg-blue-500 opacity-75"></span>
-      
-      {/* Current theme indicator text for accessibility */}
-      <span className="sr-only">
-        Current theme: {theme} {theme === 'system' ? `(${resolvedTheme})` : ''}
-      </span>
+      }`} aria-hidden="true"></i>
+      <span className="text-sm font-medium">{mode}</span>
     </button>
   )
 }

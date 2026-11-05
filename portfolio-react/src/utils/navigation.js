@@ -34,6 +34,21 @@ export const sectionExists = (sectionId) => {
   return !!document.getElementById(sanitizedId)
 }
 
+const waitForSection = (sectionId, timeout = 2000) => new Promise((resolve) => {
+  const startedAt = Date.now()
+  const check = () => {
+    if (sectionExists(sectionId)) {
+      resolve(true)
+    } else if (Date.now() - startedAt >= timeout) {
+      resolve(false)
+    } else {
+      window.setTimeout(check, 50)
+    }
+  }
+
+  check()
+})
+
 /**
  * Handle hash-based navigation with cross-page support
  */
@@ -59,15 +74,21 @@ export const navigateToSection = async (targetUrl, navigate, options = {}) => {
       return scrollToSection(sanitizedSectionId, offset, fallbackToTop)
     }
 
-    // Navigate to different page with hash
-    navigate(basePath)
-    
-    // Wait and then scroll
-    setTimeout(() => {
-      scrollToSection(sanitizedSectionId, offset, fallbackToTop)
-    }, delay)
-    
-    return true
+    // Navigate to a different page and wait for its lazy-loaded section.
+    navigate(targetUrl)
+    if (delay > 0) {
+      await new Promise((resolve) => window.setTimeout(resolve, delay))
+    }
+
+    const sectionLoaded = await waitForSection(sanitizedSectionId)
+    if (sectionLoaded) {
+      return scrollToSection(sanitizedSectionId, offset, fallbackToTop)
+    }
+
+    if (fallbackToTop) {
+      window.scrollTo({ top: 0, behavior: 'smooth' })
+    }
+    return false
   } catch (error) {
     console.error('Navigation error:', error)
     return false

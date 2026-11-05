@@ -32,14 +32,15 @@ describe('ThemeToggle Component', () => {
     expect(button).toHaveAttribute('aria-label', 'Switch to dark theme')
   })
 
-  it('shows moon icon in light theme', () => {
+  it('shows the current light theme', () => {
     renderWithProviders(<ThemeToggle />)
     
     const icon = screen.getByRole('button').querySelector('i')
-    expect(icon).toHaveClass('uil-moon')
+    expect(icon).toHaveClass('uil-sun')
+    expect(screen.getByText('Light')).toBeInTheDocument()
   })
 
-  it('shows sun icon in dark theme', () => {
+  it('shows the current dark theme', () => {
     // Update mock store for dark theme
     mockStore.theme = 'dark'
     mockStore.resolvedTheme = 'dark'
@@ -50,7 +51,8 @@ describe('ThemeToggle Component', () => {
     expect(button).toHaveAttribute('aria-label', 'Switch to system theme')
     
     const icon = button.querySelector('i')
-    expect(icon).toHaveClass('uil-sun')
+    expect(icon).toHaveClass('uil-moon')
+    expect(screen.getByText('Dark')).toBeInTheDocument()
     
     // Reset for other tests
     mockStore.theme = 'light'
@@ -69,6 +71,7 @@ describe('ThemeToggle Component', () => {
     
     const icon = button.querySelector('i')
     expect(icon).toHaveClass('uil-laptop')
+    expect(screen.getByText('Auto')).toBeInTheDocument()
     
     // Reset for other tests
     mockStore.theme = 'light'

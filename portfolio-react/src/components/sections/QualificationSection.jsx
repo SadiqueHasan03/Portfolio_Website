@@ -1,99 +1,145 @@
 import useAppStore from '../../stores/useAppStore'
 import { qualificationData } from '../../data/portfolioData'
-import Card from '../ui/Card'
+import AnimatedSection from '../ui/AnimatedSection'
+
+const tabs = [
+  { id: 'experience', label: 'Experience & projects', icon: 'uil-briefcase-alt' },
+  { id: 'education', label: 'Education', icon: 'uil-graduation-cap' }
+]
 
 function QualificationSection() {
   const { activeQualificationTab, setActiveQualificationTab } = useAppStore()
+  const activeTab = tabs.some((tab) => tab.id === activeQualificationTab)
+    ? activeQualificationTab
+    : 'experience'
+  const activeItems = qualificationData[activeTab]
 
-  const tabs = [
-    { id: 'education', label: 'Education', icon: 'uil-graduation-cap' },
-    { id: 'projects', label: 'Projects', icon: 'uil-briefcase-alt' }
-  ]
+  const handleTabKeyDown = (event, currentTab) => {
+    const currentIndex = tabs.findIndex((tab) => tab.id === currentTab)
+    let nextIndex
+
+    if (event.key === 'ArrowRight' || event.key === 'ArrowDown') {
+      nextIndex = (currentIndex + 1) % tabs.length
+    } else if (event.key === 'ArrowLeft' || event.key === 'ArrowUp') {
+      nextIndex = (currentIndex - 1 + tabs.length) % tabs.length
+    } else if (event.key === 'Home') {
+      nextIndex = 0
+    } else if (event.key === 'End') {
+      nextIndex = tabs.length - 1
+    } else {
+      return
+    }
+
+    event.preventDefault()
+    const nextTab = tabs[nextIndex]
+    setActiveQualificationTab(nextTab.id)
+    document.getElementById(`qualification-tab-${nextTab.id}`)?.focus()
+  }
 
   return (
-    <section id="qualification" className="section-padding">
+    <section id="qualification" className="section-padding qualification-section" aria-labelledby="qualification-heading">
       <div className="container-custom">
-        <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-          Qualification
-        </h2>
-        <p className="text-center text-gray-600 dark:text-gray-400 mb-16">
-          My personal journey
-        </p>
+        <AnimatedSection animation="fadeUp" className="qualification-heading">
+          <p className="qualification-eyebrow"><span /> The journey so far</p>
+          <div className="qualification-heading-row">
+            <div>
+              <h2 id="qualification-heading">
+                Experience that <span>keeps me growing.</span>
+              </h2>
+              <p>
+                A snapshot of the work, projects, and education behind my engineering journey.
+              </p>
+            </div>
+            <div className="qualification-period-count">
+              <strong>{String(activeItems.length).padStart(2, '0')}</strong>
+              <span>{activeTab === 'education' ? 'education milestones' : 'career milestones'}</span>
+            </div>
+          </div>
+        </AnimatedSection>
 
-        {/* Tabs */}
-        <div className="flex justify-center mb-12">
-          <div className="flex space-x-8">
-            {tabs.map((tab) => (
+        <div className="qualification-tabs" role="tablist" aria-label="Qualification categories">
+          {tabs.map((tab) => {
+            const selected = activeTab === tab.id
+            return (
               <button
                 key={tab.id}
+                id={`qualification-tab-${tab.id}`}
+                type="button"
+                role="tab"
+                aria-selected={selected}
+                aria-controls="qualification-panel"
+                tabIndex={selected ? 0 : -1}
                 onClick={() => setActiveQualificationTab(tab.id)}
-                className={`flex items-center space-x-2 px-6 py-3 font-medium rounded-lg transition-all duration-300 ${
-                  activeQualificationTab === tab.id
-                    ? 'text-primary-500 bg-primary-50 dark:bg-primary-900/20'
-                    : 'text-gray-600 dark:text-gray-400 hover:text-primary-500'
-                }`}
+                onKeyDown={(event) => handleTabKeyDown(event, tab.id)}
+                className={`qualification-tab${selected ? ' is-active' : ''}`}
               >
-                <i className={`${tab.icon} text-lg`}></i>
+                <i className={`uil ${tab.icon}`} aria-hidden="true"></i>
                 <span>{tab.label}</span>
+                <span className="qualification-tab-count">
+                  {String(qualificationData[tab.id].length).padStart(2, '0')}
+                </span>
               </button>
-            ))}
-          </div>
+            )
+          })}
         </div>
 
-        {/* Content */}
-        <div className="max-w-4xl mx-auto">
-          {tabs.map((tab) => (
-            <div
-              key={tab.id}
-              className={`transition-all duration-300 ${
-                activeQualificationTab === tab.id
-                  ? 'opacity-100 translate-y-0'
-                  : 'opacity-0 translate-y-4 absolute pointer-events-none'
-              }`}
+        <div
+          id="qualification-panel"
+          className="qualification-timeline"
+          role="tabpanel"
+          aria-labelledby={`qualification-tab-${activeTab}`}
+          tabIndex={0}
+        >
+          {activeItems.map((item, index) => (
+            <AnimatedSection
+              key={`${activeTab}-${item.title}`}
+              animation="fadeUp"
+              delay={index * 100}
+              className="qualification-entry"
             >
-              {activeQualificationTab === tab.id && (
-                <div className="space-y-8">
-                  {qualificationData[tab.id].map((item, index) => (
-                    <div key={index} className="relative">
-                      <div className="grid grid-cols-1 md:grid-cols-3 gap-8 items-center">
-                        {/* Content - Left side for odd indices, right for even */}
-                        <div className={`md:col-span-1 ${
-                          index % 2 === 0 ? 'md:order-1' : 'md:order-3'
-                        }`}>
-                          <Card className="text-center md:text-left">
-                            <h3 className="font-semibold text-lg mb-2">
-                              {item.title}
-                            </h3>
-                            <p className="text-gray-600 dark:text-gray-400 text-sm mb-3">
-                              {item.subtitle}
-                            </p>
-                            <div className="flex items-center justify-center md:justify-start text-gray-500 dark:text-gray-500 text-sm">
-                              <i className="uil uil-calendar-alt mr-2"></i>
-                              {item.period}
-                            </div>
-                          </Card>
-                        </div>
+              <div className="qualification-marker" aria-hidden="true">
+                <span><i className={`uil ${item.icon || (activeTab === 'education' ? 'uil-graduation-cap' : 'uil-briefcase-alt')}`}></i></span>
+              </div>
 
-                        {/* Timeline */}
-                        <div className="md:col-span-1 flex justify-center order-2">
-                          <div className="flex flex-col items-center">
-                            <div className="w-4 h-4 bg-primary-500 rounded-full"></div>
-                            {index < qualificationData[tab.id].length - 1 && (
-                              <div className="w-px h-24 bg-primary-200 dark:bg-primary-800 mt-2"></div>
-                            )}
-                          </div>
-                        </div>
-
-                        {/* Empty space for alignment */}
-                        <div className={`md:col-span-1 hidden md:block ${
-                          index % 2 === 0 ? 'md:order-3' : 'md:order-1'
-                        }`}></div>
-                      </div>
-                    </div>
-                  ))}
+              <article className="qualification-card">
+                <div className="qualification-card-top">
+                  <span className="qualification-type">{item.type || tabs.find((tab) => tab.id === activeTab)?.label}</span>
+                  <span className="qualification-period">
+                    <i className="uil uil-calendar-alt" aria-hidden="true"></i>
+                    {item.period}
+                  </span>
                 </div>
-              )}
-            </div>
+
+                <h3>{item.title}</h3>
+                <p className="qualification-subtitle">{item.subtitle}</p>
+
+                {item.location && (
+                  <p className="qualification-location">
+                    <i className="uil uil-map-marker" aria-hidden="true"></i>
+                    {item.location}
+                  </p>
+                )}
+
+                {item.highlights?.length > 0 && (
+                  <ul className="qualification-highlights">
+                    {item.highlights.map((highlight) => (
+                      <li key={highlight}>
+                        <i className="uil uil-check-circle" aria-hidden="true"></i>
+                        <span>{highlight}</span>
+                      </li>
+                    ))}
+                  </ul>
+                )}
+
+                {item.technologies?.length > 0 && (
+                  <ul className="qualification-tags" aria-label="Technologies and focus">
+                    {item.technologies.map((technology) => (
+                      <li key={technology}>{technology}</li>
+                    ))}
+                  </ul>
+                )}
+              </article>
+            </AnimatedSection>
           ))}
         </div>
       </div>
@@ -101,4 +147,4 @@ function QualificationSection() {
   )
 }
 
-export default QualificationSection;
+export default QualificationSection

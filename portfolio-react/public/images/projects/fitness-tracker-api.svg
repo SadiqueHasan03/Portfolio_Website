@@ -1,0 +1,43 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="500" viewBox="0 0 800 500" fill="none">
+  <defs>
+    <linearGradient id="bg" x1="57" y1="13" x2="731" y2="487" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#102B38"/>
+      <stop offset="1" stop-color="#116B69"/>
+    </linearGradient>
+    <linearGradient id="mint" x1="441" y1="142" x2="716" y2="393" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#A7F3D0"/>
+      <stop offset="1" stop-color="#38BFA9"/>
+    </linearGradient>
+  </defs>
+  <rect width="800" height="500" rx="28" fill="url(#bg)"/>
+  <circle cx="699" cy="87" r="129" fill="#42D6B2" fill-opacity=".09"/>
+  <circle cx="402" cy="481" r="210" fill="#5EEAD4" fill-opacity=".07"/>
+  <text x="54" y="83" fill="#77E5C5" font-family="Arial,sans-serif" font-size="16" font-weight="700" letter-spacing="3">ACTIVITY TRACKING</text>
+  <text x="50" y="145" fill="#F3FFFB" font-family="Arial,sans-serif" font-size="38" font-weight="700">Activity</text>
+  <rect x="54" y="228" width="124" height="102" rx="18" fill="#183E49" stroke="#3B716F"/>
+  <path d="M77 265h14l9-15 13 32 10-19h24" stroke="#76E5C5" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="76" y="308" fill="#D9F9EF" font-family="Arial,sans-serif" font-size="14">WEEKLY ACTIVITY</text>
+  <rect x="54" y="347" width="124" height="54" rx="16" fill="#183E49" stroke="#3B716F"/>
+  <circle cx="79" cy="374" r="11" fill="#54D5B6" fill-opacity=".2"/>
+  <path d="M74 374h10m-5-5v10" stroke="#8AF0CE" stroke-width="2" stroke-linecap="round"/>
+  <text x="99" y="379" fill="#D9F9EF" font-family="Arial,sans-serif" font-size="14">GOALS</text>
+  <rect x="218" y="103" width="530" height="298" rx="24" fill="#F4FAF8"/>
+  <rect x="218" y="103" width="530" height="52" rx="24" fill="#E8F4F0"/>
+  <path d="M218 131v24h530v-24" fill="#E8F4F0"/>
+  <circle cx="246" cy="129" r="6" fill="#38BFA9"/><circle cx="265" cy="129" r="6" fill="#A3DCCD"/><circle cx="284" cy="129" r="6" fill="#C5E7DC"/>
+  <text x="320" y="135" fill="#305A56" font-family="Arial,sans-serif" font-size="14" font-weight="700">ACTIVITY OVERVIEW</text>
+  <text x="251" y="197" fill="#53726C" font-family="Arial,sans-serif" font-size="14">TODAY'S WORKOUT</text>
+  <text x="250" y="237" fill="#173D3A" font-family="Arial,sans-serif" font-size="30" font-weight="700">42 min</text>
+  <text x="250" y="263" fill="#4A8A7B" font-family="Arial,sans-serif" font-size="14">+12% from last week</text>
+  <rect x="250" y="291" width="467" height="1" fill="#D6E7E1"/>
+  <g fill="url(#mint)">
+    <rect x="276" y="338" width="27" height="39" rx="8"/><rect x="330" y="316" width="27" height="61" rx="8"/>
+    <rect x="384" y="329" width="27" height="48" rx="8"/><rect x="438" y="300" width="27" height="77" rx="8"/>
+    <rect x="492" y="321" width="27" height="56" rx="8"/><rect x="546" y="282" width="27" height="95" rx="8"/>
+    <rect x="600" y="306" width="27" height="71" rx="8"/><rect x="654" y="270" width="27" height="107" rx="8"/>
+  </g>
+  <g fill="#7B9B93" font-family="Arial,sans-serif" font-size="12">
+    <text x="282" y="394">M</text><text x="336" y="394">T</text><text x="390" y="394">W</text>
+    <text x="444" y="394">T</text><text x="498" y="394">F</text><text x="552" y="394">S</text><text x="660" y="394">M</text>
+  </g>
+</svg>

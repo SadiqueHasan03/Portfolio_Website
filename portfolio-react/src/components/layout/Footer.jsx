@@ -66,7 +66,7 @@ function Footer() {
                 <i className="uil uil-github-alt text-xl"></i>
               </a>
               <a
-              href={personalInfo.socialLinks.LeetCode}
+              href={personalInfo.socialLinks.leetcode}
               target="_blank"
               rel="noopener noreferrer"
               className="text-white hover:text-primary-200 transition-colors duration-300"
